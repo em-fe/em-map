@@ -1,6 +1,11 @@
 # em-map
 高德地图之vue2组件
-> em-map是一套基于Vue 2.0和高德地图的地图组件。参照 [vue-amap](https://elemefe.github.io/vue-amap)
+> em-map 是一套基于Vue 2.0和高德地图的地图组件。参照 [vue-amap](https://elemefe.github.io/vue-amap)
+
+[![em-map](https://img.shields.io/npm/v/em-map.svg?style=flat-square)](https://www.npmjs.org/package/em-map)
+[![NPM downloads](http://img.shields.io/npm/dm/em-map.svg?style=flat-square)](https://npmjs.org/package/em-map)
+[![Package Quality](http://npm.packagequality.com/shield/em-map.svg)](http://packagequality.com/#?package=em-map)
+[![NPM downloads](https://img.shields.io/npm/dt/em-map.svg?style=flat-square)](https://npmjs.org/package/em-map)
 
 ## 快速上手
 
