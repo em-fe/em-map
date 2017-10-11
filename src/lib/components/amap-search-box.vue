@@ -164,6 +164,13 @@ export default {
         this.keyword = this.tips[this.selectedTip].name;
       }
     }
+  },
+  watch: {
+    default(val, oldVal) {
+      if (val !== oldVal) {
+        this.keyword = val;
+      }
+    }
   }
 };
 </script>
