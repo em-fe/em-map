@@ -1,0 +1,3 @@
+export default {
+  EMFEMAP_READY_EVENT: 'EMFEMAP_READY_EVENT'
+};
