@@ -11,9 +11,9 @@ Geolocation定位服务插件。融合了浏览器定位、高精度IP定位、�
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap vid="amap" :plugin="plugin" class="emfe-demo" :center="center">
-      </emfe-amap>
+    <div class="amap-page-container">
+      <el-amap vid="amap" :plugin="plugin" class="amap-demo" :center="center">
+      </el-amap>
 
       <div class="toolbar">
         <span v-if="loaded">
@@ -25,7 +25,7 @@ Geolocation定位服务插件。融合了浏览器定位、高精度IP定位、�
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>

@@ -1,5 +1,5 @@
 export function toPixel(arr) {
-  return new EmfeMap.Pixel(arr[0], arr[1]);
+  return new AMap.Pixel(arr[0], arr[1]);
 }
 
 export function pixelTo(pixel) {
@@ -8,7 +8,7 @@ export function pixelTo(pixel) {
 }
 
 export function toLngLat(arr) {
-  return new EmfeMap.LngLat(arr[0], arr[1]);
+  return new AMap.LngLat(arr[0], arr[1]);
 }
 
 export function lngLatTo(lngLat) {
@@ -21,5 +21,5 @@ export function lngLatTo(lngLat) {
  * @param arrs 二重数组 southWest, northEast
  */
 export function toBounds(arrs) {
-  return new EmfeMap.Bounds(toLngLat(arrs[0]), toLngLat(arrs[1]));
+  return new AMap.Bounds(toLngLat(arrs[0]), toLngLat(arrs[1]));
 }

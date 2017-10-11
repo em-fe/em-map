@@ -1,4 +1,4 @@
-const DEFAULT_EMFEMAP_CONFIG = {
+const DEFAULT_AMP_CONFIG = {
   key: null,
   v: 1.3,
   protocol: 'https',
@@ -7,13 +7,13 @@ const DEFAULT_EMFEMAP_CONFIG = {
   callback: 'amapInitComponent'
 };
 
-export default class EmfeMapAPILoader {
+export default class AMapAPILoader {
   /**
    * @param config required 初始化参数
    */
   constructor(config) {
     this._config = {
-      ...DEFAULT_EMFEMAP_CONFIG,
+      ...DEFAULT_AMP_CONFIG,
       ...config
     };
     this._document = document;
@@ -23,7 +23,7 @@ export default class EmfeMapAPILoader {
   }
 
   load() {
-    if (this._window.EmfeMap) {
+    if (this._window.AMap) {
       return Promise.resolve();
     }
 
@@ -34,7 +34,7 @@ export default class EmfeMapAPILoader {
     script.defer = true;
     script.src = this._getScriptSrc();
 
-    const UIPromise = this._config.uiVersion ? this.loadUIEmfeMap() : null;
+    const UIPromise = this._config.uiVersion ? this.loadUIAMap() : null;
 
     this._scriptLoadingPromise = new Promise((resolve, reject) => {
       this._window['amapInitComponent'] = () => {
@@ -43,7 +43,7 @@ export default class EmfeMapAPILoader {
         }
         if (UIPromise) {
           UIPromise.then(() => {
-            window.initEmfeMapUI();
+            window.initAMapUI();
             return resolve();
           });
         } else {
@@ -56,7 +56,7 @@ export default class EmfeMapAPILoader {
     return this._scriptLoadingPromise;
   }
 
-  loadUIEmfeMap() {
+  loadUIAMap() {
     return new Promise((resolve, reject) => {
       const UIScript = document.createElement('script');
       UIScript.src = `${this._config.protocol}://webapi.amap.com/ui/${this._config.uiVersion}/main-async.js`;
@@ -73,18 +73,18 @@ export default class EmfeMapAPILoader {
 
   _getScriptSrc() {
     // amap plugin prefix reg
-    const amap_prefix_reg = /^Emfe./;
+    const amap_prefix_reg = /^AMap./;
 
     const config = this._config;
     const paramKeys = ['v', 'key', 'plugin', 'callback'];
 
-    // check 'EmfeMap.' prefix
+    // check 'AMap.' prefix
     if (config.plugin && config.plugin.length > 0) {
       // push default types
       config.plugin.push('Autocomplete', 'PlaceSearch', 'PolyEditor', 'CircleEditor');
 
       config.plugin = config.plugin.map(item => {
-        return (amap_prefix_reg.test(item)) ? item : 'EmfeMap.' + item;
+        return (amap_prefix_reg.test(item)) ? item : 'AMap.' + item;
       });
     }
 

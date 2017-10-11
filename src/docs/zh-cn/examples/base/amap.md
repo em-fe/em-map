@@ -5,7 +5,7 @@
 如果需要坐标转地址服务，也就是下面用到的 `Geocoder` ，请注意在地图初始化的时候要记得引入：
 
 ```javascript
-window.EmMap.initEmfeMapApiLoader({
+window.VueAMap.initAMapApiLoader({
   key: 'YOUR_CODE',
   plugin: [... 'Geocoder']
 });
@@ -16,14 +16,14 @@ window.EmMap.initEmfeMapApiLoader({
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap
+    <div class="amap-page-container">
+      <el-amap
         vid="amapDemo"  
         :center="center"
         :zoom="zoom"  
-        class="emfe-demo"
+        class="amap-demo"
         :events="events">
-      </emfe-amap>
+      </el-amap>
       <div class="toolbar">
         position: [{{ lng }}, {{ lat }}] address: {{ address }}
       </div>
@@ -31,7 +31,7 @@ window.EmMap.initEmfeMapApiLoader({
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>
@@ -52,7 +52,7 @@ window.EmMap.initEmfeMapApiLoader({
               self.lat = lat;
 
               // 这里通过高德 SDK 完成。
-              var geocoder = new EmfeMap.Geocoder({
+              var geocoder = new AMap.Geocoder({
                 radius: 1000,
                 extensions: "all"
               });        

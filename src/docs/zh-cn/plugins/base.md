@@ -6,15 +6,15 @@
 
 ### 1 - 全局引入地图插件
 
-首先需要在项目初始化时，通过 `initEmfeMapApiLoader` 引入所需要的插件。
+首先需要在项目初始化时，通过 `initAMapApiLoader` 引入所需要的插件。
 
 *使用插件之前一定要初始化，否则会报错！*
 
 ```javascript
-import EmMap from 'em-map';
-EmMap.initEmfeMapApiLoader({
+import VueAMap from 'vue-amap';
+VueAMap.initAMapApiLoader({
   key: 'YOUR_KEY',
-  plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'EmfeMap.CircleEditor']
+  plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'AMap.CircleEditor']
 });
 ```
 
@@ -25,7 +25,7 @@ EmMap.initEmfeMapApiLoader({
 ```javascript
 <template>
   <div>
-    <emfe-amap vid="amapDemo" :plugin="plugins"></emfe-amap>
+    <el-amap vid="amapDemo" :plugin="plugins"></el-amap>
   </div>
 </template>
 
@@ -42,7 +42,7 @@ export default {
 
 ## 配置说明
 
-插件名支持两种，不带`"EmfeMap"`前缀，如`"MapType"`,带`"EmfeMap"`前缀，如`"EmfeMap.MapType"`。推荐前者，以下都基于前者说明。
+插件名支持两种，不带`"AMap"`前缀，如`"MapType"`,带`"AMap"`前缀，如`"AMap.MapType"`。推荐前者，以下都基于前者说明。
 **（v0.1.2之前版本，只支持后者）**
 
 插件的配置支持两种方式。

@@ -3,9 +3,9 @@
 引入插件
 
 ```
-import EmMap from 'em-map';
+import VueAMap from 'vue-amap';
 
-EmMap.initEmfeMapApiLoader({
+VueAMap.initAMapApiLoader({
   key: 'YOUR CODE',
   plugin: [..., 'MarkerClusterer']
 });
@@ -16,20 +16,20 @@ EmMap.initEmfeMapApiLoader({
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap
+    <div class="amap-page-container">
+      <el-amap
         vid="amapDemo"  
         :center="center"
         :zoom="zoom"
-        class="emfe-demo"
+        class="amap-demo"
         :events="events">
-        <emfe-emfe-marker v-for="marker in markers" :position="marker.position" :content="marker.content" :events="marker.events"></emfe-emfe-marker>
-      </emfe-amap>
+        <el-amap-marker v-for="marker in markers" :position="marker.position" :content="marker.content" :events="marker.events"></el-amap-marker>
+      </el-amap>
     </div>
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>
@@ -48,7 +48,7 @@ EmMap.initEmfeMapApiLoader({
             init(o) {
               setTimeout(() => {
                 console.log(self.markerRefs);
-                let cluster = new EmfeMap.MarkerClusterer(o, self.markerRefs,{
+                let cluster = new AMap.MarkerClusterer(o, self.markerRefs,{
                   gridSize: 80,
                   renderCluserMarker: self._renderCluserMarker
                 });
@@ -103,7 +103,7 @@ EmMap.initEmfeMapApiLoader({
           div.style.color = fontColor;
           div.style.fontSize = '14px';
           div.style.textAlign = 'center';
-          context.marker.setOffset(new EmfeMap.Pixel(-size/2,-size/2));
+          context.marker.setOffset(new AMap.Pixel(-size/2,-size/2));
           context.marker.setContent(div)
         }
       }

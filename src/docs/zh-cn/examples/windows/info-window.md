@@ -7,20 +7,20 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap
+    <div class="amap-page-container">
+      <el-amap
         vid="amapDemo"  
         :center="center"
         :zoom="zoom"  
-        class="emfe-demo">
-        <emfe-emfe-marker v-for="marker in markers" :position="marker.position" :events="marker.events"></emfe-emfe-marker>
-        <emfe-emfe-info-window v-for="window in windows" :position="window.position" :visible="window.visible" :content="window.content"></emfe-emfe-info-window>
-      </emfe-amap>
+        class="amap-demo">
+        <el-amap-marker v-for="marker in markers" :position="marker.position" :events="marker.events"></el-amap-marker>
+        <el-amap-info-window v-for="window in windows" :position="window.position" :visible="window.visible" :content="window.content"></el-amap-info-window>
+      </el-amap>
     </div>
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
 

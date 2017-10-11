@@ -7,42 +7,42 @@
 推荐 npm 安装。
 
 ```
-npm install em-map --save
+npm install vue-amap --save
 ```
 
-<!-- ## CDN
+## CDN
 
-目前可通过 [unpkg.com/em-map](https://unpkg.com/em-map/dist/index.js) 获取最新版本的资源。
+目前可通过 [unpkg.com/vue-amap](https://unpkg.com/vue-amap/dist/index.js) 获取最新版本的资源。
 
 ```html
-<script src="https://unpkg.com/em-map/dist/index.js"></script>
-``` -->
+<script src="https://unpkg.com/vue-amap/dist/index.js"></script>
+```
 
 ## Hello World
 
-通过 CDN 的方式我们可以很容易地使用 em-map 写出一个 Hello world 页面。
+通过 CDN 的方式我们可以很容易地使用 vue-amap 写出一个 Hello world 页面。
 
 ```html
 <!DOCTYPE html>
 <html>
   <head>
-    <title>demo | em-map</title>
+    <title>demo | vue-amap</title>
     <meta charset="UTF-8">
   </head>
   <body>
     <div id="app">
-      <emfe-amap vid="amap"></emfe-amap>
+      <el-amap vid="amap"></el-amap>
     </div>
   </body>
   <!-- 先引入 Vue -->
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <!-- 引入组件库 -->
-  <script src="https://unpkg.com/em-map/dist/index.js"></script>
+  <script src="https://unpkg.com/vue-amap/dist/index.js"></script>
   <script>
     // 初始化高德地图的 key 和插件
-    window.EmMap.initEmfeMapApiLoader({
+    window.VueAMap.initAMapApiLoader({
       key: 'YOUR_KEY',
-      plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'EmfeMap.CircleEditor']
+      plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'AMap.CircleEditor']
     });
 
     new Vue({

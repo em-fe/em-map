@@ -4,7 +4,7 @@
 import { toLngLat } from '../utils/convert-helper';
 import registerMixin from '../mixins/register-component';
 export default {
-  name: 'emfe-emfe-info-window',
+  name: 'el-amap-info-window',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new EmfeMap.InfoWindow(options);
+      this.$amapComponent = new AMap.InfoWindow(options);
       if (this.visible !== false) this.$amapComponent.open(this.$amap, toLngLat(this.position));
     }
   }

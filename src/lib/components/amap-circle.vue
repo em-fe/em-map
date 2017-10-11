@@ -1,36 +1,42 @@
-<template>
-</template>
+<template></template>
 <script>
 import registerMixin from '../mixins/register-component';
+import { toLngLat, lngLatTo } from '../utils/convert-helper';
 import editorMixin from '../mixins/editor-component';
-import { lngLatTo } from '../utils/convert-helper';
 export default {
-  name: 'emfe-emfe-polyline',
+  name: 'el-amap-circle',
   mixins: [registerMixin, editorMixin],
   props: [
     'vid',
     'zIndex',
-    'visible',
-    'editable',
+    'center',
     'bubble',
-    'geodesic',
-    'isOutline',
-    'outlineColor',
-    'path',
+    'radius',
     'strokeColor',
     'strokeOpacity',
     'strokeWeight',
+    'editable',
+    'fillColor',
+    'fillOpacity',
     'strokeStyle',
+    'extData',
     'strokeDasharray',
     'events',
+    'visible',
     'extData',
-    'onceEvents',
-    'lineJoin'
+    'onceEvents'
   ],
   data() {
     return {
-      converters: {},
+      converters: {
+        center(arr) {
+          return toLngLat(arr);
+        }
+      },
       handlers: {
+        zIndex(index) {
+          this.setzIndex(index);
+        },
         visible(flag) {
           flag === false ? this.hide() : this.show();
         },
@@ -42,17 +48,11 @@ export default {
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new EmfeMap.Polyline(options);
-      this.$amapComponent.editor = new EmfeMap.PolyEditor(this.$amap, this.$amapComponent);
+      this.$amapComponent = new AMap.Circle(options);
+      this.$amapComponent.editor = new AMap.CircleEditor(this.$amap, this.$amapComponent);
     },
-    $$getPath() {
-      return this.$amapComponent.getPath().map(lngLatTo);
-    },
-    $$getBounds() {
-      return this.$amapComponent.getBounds();
-    },
-    $$getExtData() {
-      return this.$amapComponent.getExtData();
+    $$getCenter() {
+      return lngLatTo(this.$amapComponent.getCenter());
     }
   }
 };

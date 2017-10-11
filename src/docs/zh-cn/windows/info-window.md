@@ -7,15 +7,15 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap vid="amap" :zoom="zoom" :center="center" class="emfe-demo">
-        <emfe-emfe-info-window v-for="window in windows" :position="window.position" :content="window.content" :visible="window.visible" :events="window.events"></emfe-emfe-info-window>
-      </emfe-amap>
+    <div class="amap-page-container">
+      <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo">
+        <el-amap-info-window v-for="window in windows" :position="window.position" :content="window.content" :visible="window.visible" :events="window.events"></el-amap-info-window>
+      </el-amap>
     </div>
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>
@@ -83,7 +83,7 @@ visible | Boolean | 信息窗体是否显示。**这里需要注意的是，高�
 
 函数 | 返回 | 说明
 ---|---|---|
-$$getInstance() | [EmfeMap.InfoWindow](http://lbs.amap.com/api/javascript-api/reference/infowindow) | 获取`infoWindow`实例
+$$getInstance() | [AMap.InfoWindow](http://lbs.amap.com/api/javascript-api/reference/infowindow) | 获取`infoWindow`实例
 
 ## 事件
 

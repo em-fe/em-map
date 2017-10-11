@@ -9,9 +9,9 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap ref="map" vid="amapDemo" :emfe-manager="amapManager" :center="center" :zoom="zoom" :plugin="plugin" :events="events" class="emfe-demo">
-      </emfe-amap>
+    <div class="amap-page-container">
+      <el-amap ref="map" vid="amapDemo" :amap-manager="amapManager" :center="center" :zoom="zoom" :plugin="plugin" :events="events" class="amap-demo">
+      </el-amap>
 
       <div class="toolbar">
         <button @click="getMap()">get map</button>
@@ -20,16 +20,16 @@
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>
 
   <script>
     // NPM 方式
-    // import { EmfeMapManager } from 'em-map';
+    // import { AMapManager } from 'vue-amap';
     // CDN 方式
-    let amapManager = new EmMap.EmfeMapManager();
+    let amapManager = new VueAMap.AMapManager();
     module.exports = {
       data: function() {
         return {
@@ -83,7 +83,7 @@
 名称 | 类型 | 说明
 ---|---|---|
 vid | String | 地图容器节点的ID。
-amapManager| EmfeMapManager | 地图管理对象。
+amapManager| AMapManager | 地图管理对象。
 cursor | String | 地图默认鼠标样式。参数cursor应符合CSS的cursor属性规范。
 animateEnable | Boolean | 地图平移过程中是否使用动画，默认为true，即使用动画。
 isHotspot | Boolean | 是否开启地图热点，默认false 不打开。
@@ -117,7 +117,7 @@ mapStyle	| String |	设置地图显示样式，目前支持normal（默认样式
 
 名称 | 参数 | 返回类型 | 说明
 ---|--- | --- |---|
-getMap | | EmfeMap.Map | 返回地图实例，注入该管理实例的组件的地图实例
+getMap | | AMap.Map | 返回地图实例，注入该管理实例的组件的地图实例
 getChildInstance| vid | instance | 返回 vid 对应的组件实例
 
 ## ref 可用方法
@@ -125,7 +125,7 @@ getChildInstance| vid | instance | 返回 vid 对应的组件实例
 
 函数 | 返回 | 说明
 ---|---|---|
-$$getInstance() | [EmfeMap.Map](http://lbs.amap.com/api/javascript-api/reference/map) | 获取地图实例
+$$getInstance() | [AMap.Map](http://lbs.amap.com/api/javascript-api/reference/map) | 获取地图实例
 $$getCenter()   | [lng: Number, lat: Number] | 获取地图中心
 
 

@@ -7,10 +7,10 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap vid="amapDemo" :zoom="zoom" :center="center" class="emfe-demo">
-        <emfe-emfe-marker v-for="marker in markers" :position="marker.position" :events="marker.events" :visible="marker.visible" :draggable="marker.draggable"></emfe-emfe-marker>
-      </emfe-amap>
+    <div class="amap-page-container">
+      <el-amap vid="amapDemo" :zoom="zoom" :center="center" class="amap-demo">
+        <el-amap-marker v-for="marker in markers" :position="marker.position" :events="marker.events" :visible="marker.visible" :draggable="marker.draggable"></el-amap-marker>
+      </el-amap>
 
       <div class="toolbar">
         <button type="button" name="button" v-on:click="toggleVisible">toggle first marker</button>
@@ -23,14 +23,14 @@
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>
 
   <script>
     module.exports = {
-      name: 'emfe-page',
+      name: 'amap-page',
       data() {
         return {
           zoom: 14,
@@ -117,7 +117,7 @@ clickable | Boolean | 点标记是否可点击。
 
 函数 | 返回 | 说明
 ---|---|---|
-$$getInstance() | [EmfeMap.Marker](http://lbs.amap.com/api/javascript-api/reference/overlay#Marker) | 获取`marker`实例
+$$getInstance() | [AMap.Marker](http://lbs.amap.com/api/javascript-api/reference/overlay#Marker) | 获取`marker`实例
 $$getPosition() | [lng:Number,lat:Number] | 获取位置
 $$getOffset()   |  [x:Number,y:Number]    | 获取偏移像素坐标
 $$getExtData()   | any | 获取用户自定义属性

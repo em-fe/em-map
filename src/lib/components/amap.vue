@@ -1,6 +1,6 @@
 <template>
-<div class="emfe-vue-emfe-container">
-    <div class="emfe-vue-amap"></div>
+<div class="el-vue-amap-container">
+    <div class="el-vue-amap"></div>
     <slot></slot>
 </div>
 </template>
@@ -9,9 +9,9 @@
    import CONST from '../utils/constant';
    import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper';
    import registerMixin from '../mixins/register-component';
-   import {lazyEmfeMapApiLoaderInstance} from '../services/injected-emfe-api-instance';
+   import {lazyAMapApiLoaderInstance} from '../services/injected-amap-api-instance';
    export default {
-     name: 'emfe-amap',
+     name: 'el-amap',
      mixins: [registerMixin],
      props: [
        'vid',
@@ -46,7 +46,7 @@
      ],
 
      beforeCreate() {
-       this._loadPromise = lazyEmfeMapApiLoaderInstance.load();
+       this._loadPromise = lazyAMapApiLoaderInstance.load();
      },
 
      destroyed() {
@@ -62,11 +62,11 @@
        plugins() {
          let plus = [];
          // amap plugin prefix reg
-         const amap_prefix_reg = /^EmfeMap./;
+         const amap_prefix_reg = /^AMap./;
 
          // parse plugin full name
          const parseFullName = (pluginName) => {
-           return amap_prefix_reg.test(pluginName) ? pluginName : 'EmfeMap.' + pluginName;
+           return amap_prefix_reg.test(pluginName) ? pluginName : 'AMap.' + pluginName;
          };
 
          // parse plugin short name
@@ -136,7 +136,7 @@
 
      methods: {
        addPlugins() {
-         let _notInjectPlugins = this.plugins.filter(_plugin => !EmfeMap[_plugin.sName]);
+         let _notInjectPlugins = this.plugins.filter(_plugin => !AMap[_plugin.sName]);
 
          if (!_notInjectPlugins || !_notInjectPlugins.length) return this.addMapControls();
          return this.$amapComponent.plugin(_notInjectPlugins, this.addMapControls);
@@ -149,8 +149,8 @@
          this.$plugins = this.$plugins || {};
 
          this.plugins.forEach(_plugin => {
-           let realPlugin = this.convertEmfeMapPluginProps(_plugin);
-           this.$plugins[realPlugin.pName] = new EmfeMap[realPlugin.sName](realPlugin);
+           let realPlugin = this.convertAMapPluginProps(_plugin);
+           this.$plugins[realPlugin.pName] = new AMap[realPlugin.sName](realPlugin);
 
            // add plugin into map
            this.$amapComponent.addControl(this.$plugins[realPlugin.pName]);
@@ -165,7 +165,7 @@
              for (let k in _plugin.events) {
                let v = _plugin.events[k];
                if (k === 'init') continue;
-               EmfeMap.event.addListener(this.$plugins[realPlugin.pName], k, v);
+               AMap.event.addListener(this.$plugins[realPlugin.pName], k, v);
              }
            }
          });
@@ -176,18 +176,18 @@
         * @param  {Object}
         * @return {Object}
         */
-       convertEmfeMapPluginProps(plugin) {
+       convertAMapPluginProps(plugin) {
 
          if (typeof plugin === 'object' && plugin.pName) {
            switch (plugin.pName) {
-             case 'EmfeMap.ToolBar': {
+             case 'AMap.ToolBar': {
                // parse offset
                if (plugin.offset && plugin.offset instanceof Array) {
                  plugin.offset = toPixel(plugin.offset);
                }
                break;
              }
-             case 'EmfeMap.Scale': {
+             case 'AMap.Scale': {
                // parse offset
                if (plugin.offset && plugin.offset instanceof Array) {
                  plugin.offset = toPixel(plugin.offset);
@@ -207,10 +207,10 @@
 
        createMap() {
          this._loadPromise.then(() => {
-           let mapElement = this.$el.querySelector('.emfe-vue-amap');
+           let mapElement = this.$el.querySelector('.el-vue-amap');
            const elementID = this.vid || guid();
            mapElement.id = elementID;
-           this.$amap = this.$amapComponent = new EmfeMap.Map(elementID, this.convertProps());
+           this.$amap = this.$amapComponent = new AMap.Map(elementID, this.convertProps());
            if (this.amapManager) this.amapManager.setMap(this.$amap);
            this.$emit(CONST.AMAP_READY_EVENT, this.$amap);
            this.$children.forEach(component => {
@@ -229,9 +229,9 @@
 </script>
 
 <style lang="scss">
-.emfe-vue-emfe-container {
+.el-vue-amap-container {
   height: 100%;
-.emfe-vue-amap {
+.el-vue-amap {
     height: 100%;
   }
 }

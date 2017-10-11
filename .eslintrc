@@ -13,7 +13,7 @@
     "mocha": true
   },
   "globals": {
-      "EmfeMap": true,
+      "AMap": true,
       "particlesJS": true,
       "expect": true,
       "sinon": true

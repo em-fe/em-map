@@ -18,7 +18,7 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath,
     chunkFilename: 'index.js',
-    library: 'EmMap',
+    library: 'VueAMap',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
