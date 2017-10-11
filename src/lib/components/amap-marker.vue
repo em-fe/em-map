@@ -3,7 +3,7 @@
 import registerMixin from '../mixins/register-component';
 import { lngLatTo, pixelTo } from '../utils/convert-helper';
 export default {
-  name: 'emfe-emfe-marker',
+  name: 'el-amap-marker',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -34,10 +34,10 @@ export default {
     return {
       converters: {
         shape(options) {
-          return new EmfeMap.MarkerShape(options);
+          return new AMap.MarkerShape(options);
         },
         shadow(options) {
-          return new EmfeMap.Icon(options);
+          return new AMap.Icon(options);
         }
       },
       handlers: {
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new EmfeMap.Marker(options);
+      this.$amapComponent = new AMap.Marker(options);
     },
     $$getExtData() {
       return this.$amapComponent.getExtData();

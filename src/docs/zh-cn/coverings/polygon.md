@@ -7,23 +7,23 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap vid="amap" :zoom="zoom" :emfe-manager="amapManager" :center="center" 
+    <div class="amap-page-container">
+      <el-amap vid="amap" :zoom="zoom" :amap-manager="amapManager" :center="center" 
       ref="map"
-      class="emfe-demo">
-        <emfe-emfe-polygon v-for="(polygon, index) in polygons" :vid="index" :ref="`polygon_${index}`" :path="polygon.path" :events="polygon.events"></emfe-emfe-polygon>
-      </emfe-amap>
+      class="amap-demo">
+        <el-amap-polygon v-for="(polygon, index) in polygons" :vid="index" :ref="`polygon_${index}`" :path="polygon.path" :events="polygon.events"></el-amap-polygon>
+      </el-amap>
     </div>
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>
 
   <script>
-    let amapManager = new EmMap.EmfeMapManager();
+    let amapManager = new VueAMap.AMapManager();
     module.exports = {
       data () {
         return {
@@ -80,9 +80,9 @@ strokeStyle | String | 轮廓线样式，实线:solid，虚线:dashed
 
 函数 | 返回 | 说明
 ---|---|---|
-$$getInstance() | [EmfeMap.Polygon](http://lbs.amap.com/api/javascript-api/reference/overlay#Polygon) | 获取`polygon`实例
+$$getInstance() | [AMap.Polygon](http://lbs.amap.com/api/javascript-api/reference/overlay#Polygon) | 获取`polygon`实例
 $$getPath() | [[lng:Number,lat:Number]] | 获取 `polygon` 的边界坐标
-$$contain([lng:Number, lat: Number] | lngLat:EmfeMap.LngLat)   |  Boolean    | `polygon` 是否包含某点
+$$contain([lng:Number, lat: Number] | lngLat:AMap.LngLat)   |  Boolean    | `polygon` 是否包含某点
 $$getExtData()   | any | 获取用户自定义属性
 
 ## 事件

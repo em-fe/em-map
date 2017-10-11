@@ -2,7 +2,7 @@
 
 ---
 
-本节将介绍如何在项目中使用 em-map。
+本节将介绍如何在项目中使用 vue-amap。
 
 
 ## 1 - 项目结构
@@ -37,7 +37,7 @@ index.html
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>vue-emfe-starter</title>
+    <title>vue-amap-starter</title>
   </head>
   <body>
     <div id="app"></div>
@@ -49,19 +49,19 @@ index.html
 package.json
 ```json
 {
-  "name": "vue-emfe-starter",
+  "name": "vue-amap-starter",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --port 9876",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "em-map": "^0.0.8",
+    "vue-amap": "^0.0.8",
     "vue": "^2.0.5"
   },
   "devDependencies": {
-    "babemfe-core": "^6.0.0",
-    "babemfe-loader": "^6.0.0",
-    "babemfe-preset-es2015": "^6.13.2",
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "babel-preset-es2015": "^6.13.2",
     "css-loader": "^0.23.1",
     "style-loader": "^0.13.1",
     "cross-env": "^1.0.6",
@@ -92,7 +92,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babemfe-loader',
+        loader: 'babel-loader',
         exclude: /node_modules/
       },
       {
@@ -129,18 +129,18 @@ if (process.env.NODE_ENV === 'production') {
 }
 ```
 
-## 2 - 引入em-map
+## 2 - 引入vue-amap
 
 main.js
 ```javascript
 import Vue from 'vue';
-import EmfeMap from 'em-map';
+import AMap from 'vue-amap';
 import App from './App.vue';
 
-Vue.use(EmfeMap);
-EmfeMap.initEmfeMapApiLoader({
+Vue.use(AMap);
+AMap.initAMapApiLoader({
   key: 'your amap key',
-  plugin: ['EmfeMap.Autocomplete', 'EmfeMap.PlaceSearch', 'EmfeMap.Scale', 'EmfeMap.OverView', 'EmfeMap.ToolBar', 'EmfeMap.MapType', 'EmfeMap.PolyEditor', 'EmfeMap.CircleEditor']
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
 });
 
 new Vue({
@@ -154,8 +154,8 @@ App.vue
 <template>
   <div id="app">
     <h3 class="title">{{ msg }}</h3>
-    <div class="emfe-wrapper">
-      <emfe-amap :vid="'emfe-vue'"></emfe-amap>
+    <div class="amap-wrapper">
+      <el-amap :vid="'amap-vue'"></el-amap>
     </div>
   </div>
 </template>
@@ -164,14 +164,14 @@ App.vue
 export default {
   data () {
     return {
-      msg: 'em-map向你问好！'
+      msg: 'vue-amap向你问好！'
     }
   }
 }
 </script>
 
 <style>
-.emfe-wrapper {
+.amap-wrapper {
   width: 500px;
   height: 500px;
 }

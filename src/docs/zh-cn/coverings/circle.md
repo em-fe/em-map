@@ -7,15 +7,15 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap vid="amapDemo" :zoom="zoom" :center="center" class="emfe-demo">
-        <emfe-emfe-circle v-for="circle in circles" :center="circle.center" :radius="circle.radius" :fillOpacity="circle.fillOpacity" :events="circle.events"></emfe-emfe-circle>
-      </emfe-amap>
+    <div class="amap-page-container">
+      <el-amap vid="amapDemo" :zoom="zoom" :center="center" class="amap-demo">
+        <el-amap-circle v-for="circle in circles" :center="circle.center" :radius="circle.radius" :fillOpacity="circle.fillOpacity" :events="circle.events"></el-amap-circle>
+      </el-amap>
     </div>
   </template>
 
   <style>
-    .emfe-page-container {
+    .amap-page-container {
       height: 200px;
     }
   </style>
@@ -77,7 +77,7 @@ extData | Any | 用户自定义属性，支持JavaScript API任意数据类型�
 
 函数 | 返回 | 说明
 ---|---|---|
-$$getInstance() | [EmfeMap.Circle](http://lbs.amap.com/api/javascript-api/reference/overlay#Circle) | 获取`circle`实例
+$$getInstance() | [AMap.Circle](http://lbs.amap.com/api/javascript-api/reference/overlay#Circle) | 获取`circle`实例
 $$getCenter() | [lng:Number,lat:Number] | 获取 `circle` 圆心坐标
 
 

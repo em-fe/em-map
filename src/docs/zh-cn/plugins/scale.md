@@ -9,14 +9,14 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap vid="amap" :plugin="plugin" class="emfe-demo">
-      </emfe-amap>
+    <div class="amap-page-container">
+      <el-amap vid="amap" :plugin="plugin" class="amap-demo">
+      </el-amap>
     </div>
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>

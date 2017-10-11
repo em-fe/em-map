@@ -5,7 +5,7 @@ import registerMixin from '../mixins/register-component';
 import editorMixin from '../mixins/editor-component';
 import { lngLatTo } from '../utils/convert-helper';
 export default {
-  name: 'emfe-emfe-polygon',
+  name: 'el-amap-polygon',
   mixins: [registerMixin, editorMixin],
   props: [
     'vid',
@@ -44,8 +44,8 @@ export default {
   methods: {
     initComponent() {
       let options = this.convertProps();
-      this.$amapComponent = new EmfeMap.Polygon(options);
-      this.$amapComponent.editor = new EmfeMap.PolyEditor(this.$amap, this.$amapComponent);
+      this.$amapComponent = new AMap.Polygon(options);
+      this.$amapComponent.editor = new AMap.PolyEditor(this.$amap, this.$amapComponent);
     },
     $$getPath() {
       return this.$amapComponent.getPath().map(lngLatTo);
@@ -54,7 +54,7 @@ export default {
       return this.$amapComponent.getExtData();
     },
     $$contains(point) {
-      if (Array.isArray(point)) point = new EmfeMap.LngLat(point[0], point[1]);
+      if (Array.isArray(point)) point = new AMap.LngLat(point[0], point[1]);
       return this.$amapComponent.getBounds().contains(point);
     }
   }

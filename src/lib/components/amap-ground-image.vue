@@ -2,7 +2,7 @@
 <script>
 import registerMixin from '../mixins/register-component';
 export default {
-  name: 'emfe-emfe-ground-image',
+  name: 'el-amap-ground-image',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new EmfeMap.GroundImage(options.url, options.bounds, options);
+      this.$amapComponent = new AMap.GroundImage(options.url, options.bounds, options);
     }
   }
 };

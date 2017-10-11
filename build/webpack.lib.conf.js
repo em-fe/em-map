@@ -25,7 +25,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     path: config.lib_build.assetsRoot,
     filename: 'index.js',
     chunkFilename: 'index.js',
-    library: 'EmMap',
+    library: 'VueAMap',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },

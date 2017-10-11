@@ -1,4 +1,4 @@
-export default class EmfeManager {
+export default class AMapManager {
   constructor() {
     this._componentMap = new Map();
     this._map = null;

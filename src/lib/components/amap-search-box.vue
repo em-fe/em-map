@@ -1,5 +1,5 @@
 <template>
-  <div class="emfe-vue-search-box-container"
+  <div class="el-vue-search-box-container"
        @keydown.up="selectTip('up')"
        @keydown.down="selectTip('down')">
     <div class="search-box-wrapper">
@@ -21,7 +21,7 @@
   </div>
 </template>
 <style lang="scss">
-  .emfe-vue-search-box-container {
+  .el-vue-search-box-container {
     position: relative;
     width: 360px;
     height: 45px;
@@ -90,9 +90,9 @@
 </style>
 <script>
 import RegisterComponentMixin from '../mixins/register-component';
-import {lazyEmfeMapApiLoaderInstance} from '../services/injected-emfe-api-instance';
+import {lazyAMapApiLoaderInstance} from '../services/injected-amap-api-instance';
 export default {
-  name: 'emfe-emfe-search-box',
+  name: 'el-amap-search-box',
   mixins: [RegisterComponentMixin],
   props: ['searchOption', 'onSearchResult', 'events', 'default'],
   data() {
@@ -104,7 +104,7 @@ export default {
     };
   },
   mounted() {
-    let _loadApiPromise = lazyEmfeMapApiLoaderInstance.load();
+    let _loadApiPromise = lazyAMapApiLoaderInstance.load();
     _loadApiPromise.then(() => {
       this.loaded = true;
       this._onSearchResult = this.onSearchResult;
@@ -118,11 +118,11 @@ export default {
   computed: {
     _autoComplete() {
       if (!this.loaded) return;
-      return new EmfeMap.Autocomplete(this.searchOption || {});
+      return new AMap.Autocomplete(this.searchOption || {});
     },
     _placeSearch() {
       if (!this.loaded) return;
-      return new EmfeMap.PlaceSearch(this.searchOption || {});
+      return new AMap.PlaceSearch(this.searchOption || {});
     }
   },
   methods: {
@@ -162,6 +162,13 @@ export default {
       } else if (type === 'down' && this.selectedTip + 1 < this.tips.length) {
         this.selectedTip += 1;
         this.keyword = this.tips[this.selectedTip].name;
+      }
+    }
+  },
+  watch: {
+    default(val, oldVal) {
+      if (val !== oldVal) {
+        this.keyword = val;
       }
     }
   }

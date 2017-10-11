@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>组件 | em-map</title>
+  <title>组件 | vue-amap</title>
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
@@ -51,7 +51,7 @@
     padding: 0;
   }
 
-  .emfe-demo {
+  .amap-demo {
     height: 300px;
   }
 
@@ -75,15 +75,15 @@
     left: 20px;
   }
 
-  .emfe-page-container {
+  .amap-page-container {
     position: relative;
   }
 </style>
 
 <script type="text/javascript">
-  window.EmMap.initEmfeMapApiLoader({
+  window.VueAMap.initAMapApiLoader({
     key: '160cab8ad6c50752175d76e61ef92c50',
-    plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'EmfeMap.CircleEditor', 'Geolocation', 'Geocoder', 'MarkerClusterer'],
+    plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'AMap.CircleEditor', 'Geolocation', 'Geocoder', 'MarkerClusterer'],
     uiVersion: '1.0'
   });
 </script>

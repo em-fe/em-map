@@ -4,49 +4,49 @@
 
 ## 引入地图
 
-一般项目中，对于 em-map 的初始化只需要调用 `initEmfeMapApiLoader` 方法即可。
+一般项目中，对于 vue-amap 的初始化只需要调用 `initAMapApiLoader` 方法即可。
 
 NPM 安装：
 
 ```javascript
-import EmMap from 'em-map';
+import VueAMap from 'vue-amap';
 
-Vue.use(EmMap);
-EmMap.initEmfeMapApiLoader({
+Vue.use(VueAMap);
+VueAMap.initAMapApiLoader({
   key: 'YOUR_KEY',
-  plugin: ['EmfeMap.Scale', 'EmfeMap.OverView', 'EmfeMap.ToolBar', 'EmfeMap.MapType',...]
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType',...]
 });
 ```
 
 CDN 引入：
 
 ```javascript
-window.EmMap.initEmfeMapApiLoader({
+window.VueAMap.initAMapApiLoader({
   key: 'YOUR_KEY',
-  plugin: ['EmfeMap.Scale', 'EmfeMap.OverView', 'EmfeMap.ToolBar', 'EmfeMap.MapType',...]
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType',...]
 });
 ```
 
 ## Promise
 
-在**定制化程度较高**的项目中，开发者可能只想通过 em-map 引入高德地图，而部分实例化的操作直接基于高德地图的 sdk 完成。这个时候就需要 `lazyEmfeMapApiLoaderInstance`。
+在**定制化程度较高**的项目中，开发者可能只想通过 vue-amap 引入高德地图，而部分实例化的操作直接基于高德地图的 sdk 完成。这个时候就需要 `lazyAMapApiLoaderInstance`。
 
 NPM 安装：
 
 ```javascript
-import EmMap from 'em-map';
-import { lazyEmfeMapApiLoaderInstance } from 'em-map';
+import VueAMap from 'vue-amap';
+import { lazyAMapApiLoaderInstance } from 'vue-amap';
 
-Vue.use(EmMap);
-EmMap.initEmfeMapApiLoader({
+Vue.use(VueAMap);
+VueAMap.initAMapApiLoader({
   key: 'YOUR_KEY',
-  plugin: ['EmfeMap.Scale', 'EmfeMap.OverView', 'EmfeMap.ToolBar', 'EmfeMap.MapType',...]
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType',...]
 });
 
-lazyEmfeMapApiLoaderInstance.load().then(() => {
+lazyAMapApiLoaderInstance.load().then(() => {
   // your code ...
-  this.map = new EmfeMap.Map('amapContainer', {
-    center: new EmfeMap.LngLat(121.59996, 31.197646)
+  this.map = new AMap.Map('amapContainer', {
+    center: new AMap.LngLat(121.59996, 31.197646)
   });
 });
 ```
@@ -54,15 +54,15 @@ lazyEmfeMapApiLoaderInstance.load().then(() => {
 CDN 引入：
 
 ```javascript
-window.EmMap.initEmfeMapApiLoader({
+window.VueAMap.initAMapApiLoader({
   key: 'YOUR_KEY',
-  plugin: ['EmfeMap.Scale', 'EmfeMap.OverView', 'EmfeMap.ToolBar', 'EmfeMap.MapType',...]
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType',...]
 });
 
-window.EmMap.lazyEmfeMapApiLoaderInstance.load().then(() => {
+window.VueAMap.lazyAMapApiLoaderInstance.load().then(() => {
   // your code ...
-  this.map = new EmfeMap.Map('amapContainer', {
-    center: new EmfeMap.LngLat(121.59996, 31.197646)
+  this.map = new AMap.Map('amapContainer', {
+    center: new AMap.LngLat(121.59996, 31.197646)
   });
 });
 ```

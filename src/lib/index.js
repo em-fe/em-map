@@ -4,62 +4,62 @@ import './polyfills';
 import upperCamelCase from 'uppercamelcase';
 
 // 初始化接口
-import {initEmfeMapApiLoader} from './services/injected-emfe-api-instance';
+import {initAMapApiLoader} from './services/injected-amap-api-instance';
 
 // 组建导入
-import EmfeMap from './components/emfe.vue';
-import EmfeMapMarker from './components/emfe-marker.vue';
-import EmfeMapSearchBox from './components/emfe-search-box.vue';
-import EmfeMapCircle from './components/emfe-circle.vue';
-import EmfeMapGroupImage from './components/emfe-ground-image.vue';
-import EmfeMapInfoWindow from './components/emfe-info-window.vue';
-import EmfeMapPolyline from './components/emfe-polyline.vue';
-import EmfeMapPolygon from './components/emfe-polygon.vue';
+import AMap from './components/amap.vue';
+import AMapMarker from './components/amap-marker.vue';
+import AMapSearchBox from './components/amap-search-box.vue';
+import AMapCircle from './components/amap-circle.vue';
+import AMapGroupImage from './components/amap-ground-image.vue';
+import AMapInfoWindow from './components/amap-info-window.vue';
+import AMapPolyline from './components/amap-polyline.vue';
+import AMapPolygon from './components/amap-polygon.vue';
 
 // managers
-import EmfeMapManager from './managers/emfe-manager';
+import AMapManager from './managers/amap-manager';
 
 let components = [
-  EmfeMap,
-  EmfeMapMarker,
-  EmfeMapSearchBox,
-  EmfeMapCircle,
-  EmfeMapGroupImage,
-  EmfeMapInfoWindow,
-  EmfeMapPolygon,
-  EmfeMapPolyline
+  AMap,
+  AMapMarker,
+  AMapSearchBox,
+  AMapCircle,
+  AMapGroupImage,
+  AMapInfoWindow,
+  AMapPolygon,
+  AMapPolyline
 ];
 
-let EmMap = {
-  initEmfeMapApiLoader,
-  EmfeMapManager
+let VueAMap = {
+  initAMapApiLoader,
+  AMapManager
 };
 
-EmMap.install = (Vue) => {
-  if (EmMap.installed) return;
+VueAMap.install = (Vue) => {
+  if (VueAMap.installed) return;
   Vue.config.optionMergeStrategies.deferredReady = Vue.config.optionMergeStrategies.created;
   components.map(_component => {
     Vue.component(_component.name, _component);
-    EmMap[upperCamelCase(_component.name).replace(/^El/, '')] = _component;
+    VueAMap[upperCamelCase(_component.name).replace(/^El/, '')] = _component;
   });
 };
 
 const install = function(Vue, opts = {}) {
   /* istanbul ignore if */
   if (install.installed) return;
-  EmMap.install(Vue);
+  VueAMap.install(Vue);
 };
 
 /* istanbul ignore if */
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
-  // window.VueAmap = EmMap;
+  // window.VueAmap = VueAMap;
 };
 
-export default EmMap;
+export default VueAMap;
 
 export {
-  EmfeMapManager,
-  initEmfeMapApiLoader
+  AMapManager,
+  initAMapApiLoader
 };
-export { lazyEmfeMapApiLoaderInstance } from './services/injected-emfe-api-instance';
+export { lazyAMapApiLoaderInstance } from './services/injected-amap-api-instance';

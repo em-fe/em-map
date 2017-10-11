@@ -7,10 +7,10 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap vid="amap" :zoom="zoom" :center="center" class="emfe-demo">
-        <emfe-emfe-polyline :editable="polyline.editable"  :path="polyline.path" :events="polyline.events"></emfe-emfe-polyline>
-      </emfe-amap>
+    <div class="amap-page-container">
+      <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo">
+        <el-amap-polyline :editable="polyline.editable"  :path="polyline.path" :events="polyline.events"></el-amap-polyline>
+      </el-amap>
 
       <div class="toolbar">
         <button type="button" name="button" v-on:click="changeEditable">change editable</button>
@@ -19,7 +19,7 @@
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>
@@ -93,7 +93,7 @@ strokeDasharray	| Array | 勾勒形状轮廓的虚线和间隙的样式，此属
 
 函数 | 返回 | 说明
 ---|---|---|
-$$getInstance() | [EmfeMap.Polyline](http://lbs.amap.com/api/javascript-api/reference/overlay#Polyline) | 获取`polyline`实例
+$$getInstance() | [AMap.Polyline](http://lbs.amap.com/api/javascript-api/reference/overlay#Polyline) | 获取`polyline`实例
 $$getPath() | [ [lng:Number, lat:Number] ] | 获取 `polyline` 获取折线路径的节点数组
 $$getExtData()   | any | 获取用户自定义属性
 

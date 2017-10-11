@@ -7,21 +7,31 @@
 [![Package Quality](http://npm.packagequality.com/shield/em-map.svg)](http://packagequality.com/#?package=em-map)
 [![NPM downloads](https://img.shields.io/npm/dt/em-map.svg?style=flat-square)](https://npmjs.org/package/em-map)
 
+
+## 安装
+```
+npm install -S vue-amap
+```
+
+## 文档
+[https://elemefe.github.io/vue-amap](https://elemefe.github.io/vue-amap)
+
+
 ## 快速上手
 
-引入 em-amap
+引入 em-map
 
 ```javascript
-// 引入 em-amap
-import EmfeMap from 'em-map';
-Vue.use(EmfeMap);
+// 引入vue-amap
+import VueAMap from 'em-amap';
+Vue.use(VueAMap);
 
-// 初始化 em-map
-EmfeMap.initEmfeMapApiLoader({
+// 初始化vue-amap
+VueAMap.initAMapApiLoader({
   // 高德的key
   key: 'YOUR_KEY',
   // 插件集合
-  plugin: ['EmfeMap.Autocomplete', 'EmfeMap.PlaceSearch', 'EmfeMap.Scale', 'EmfeMap.OverView', 'EmfeMap.ToolBar', 'EmfeMap.MapType', 'EmfeMap.PolyEditor', 'EmfeMap.CircleEditor']
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
 });
 ```
 
@@ -30,61 +40,62 @@ EmfeMap.initEmfeMapApiLoader({
 ### 地图
 
 ```javascript
-<emfe-amap vid="amapDemo" :zoom="zoom" :center="center">
-</emfe-amap>
+<el-amap vid="amapDemo" :zoom="zoom" :center="center">
+</el-amap>
 ```
 
 ### 点坐标
 
 ```javascript
-<emfe-amap vid="amapDemo" :zoom="zoom" :center="center">
-  <emfe-emfe-marker v-for="marker in markers" :position="marker.position"></emfe-emfe-marker>
-</emfe-amap>
+<el-amap vid="amapDemo" :zoom="zoom" :center="center">
+  <el-amap-marker v-for="marker in markers" :position="marker.position"></el-amap-marker>
+</el-amap>
 ```
 
 ### 折线
 
 ```javascript
-<emfe-amap vid="amapDemo" :zoom="zoom" :center="center">
-  <emfe-emfe-polyline :path="polyline.path"></emfe-emfe-polyline>
-</emfe-amap>
+<el-amap vid="amapDemo" :zoom="zoom" :center="center">
+  <el-amap-polyline :path="polyline.path"></el-amap-polyline>
+</el-amap>
 ```
 
 ### 多边形
 
 ```javascript
-<emfe-amap vid="amapDemo" :zoom="zoom" :center="center">
-  <emfe-emfe-polygon v-for="polygon in polygons" :path="polygon.path" :events="polygon.events"></emfe-emfe-polygon>
-</emfe-amap>
+<el-amap vid="amapDemo" :zoom="zoom" :center="center">
+  <el-amap-polygon v-for="polygon in polygons" :path="polygon.path" :events="polygon.events"></el-amap-polygon>
+</el-amap>
 ```
 
 ### 圆
 
 ```javascript
-<emfe-amap vid="amapDemo" :zoom="zoom" :center="center">
-  <emfe-emfe-circle v-for="circle in circles" :center="circle.center" :radius="circle.radius"></emfe-emfe-circle>
-</emfe-amap>
+<el-amap vid="amapDemo" :zoom="zoom" :center="center">
+  <el-amap-circle v-for="circle in circles" :center="circle.center" :radius="circle.radius"></el-amap-circle>
+</el-amap>
 ```
 
 ### 图片覆盖物
 
 ```javascript
-<emfe-amap vid="amapDemo" :zoom="zoom" :center="center">
-  <emfe-emfe-ground-image v-for="groundimage in groundimages" :url="groundimage.url"></emfe-emfe-ground-image>
-</emfe-amap>
+<el-amap vid="amapDemo" :zoom="zoom" :center="center">
+  <el-amap-ground-image v-for="groundimage in groundimages" :url="groundimage.url"></el-amap-ground-image>
+</el-amap>
 ```
 
 ### 信息窗体
 
 ```javascript
-<emfe-amap vid="amapDemo" :zoom="zoom" :center="center">
-  <emfe-emfe-info-window v-for="window in windows" :position="window.position" :content="window.content" :open="window.open"></emfe-emfe-info-window>
-</emfe-amap>
+<el-amap vid="amapDemo" :zoom="zoom" :center="center">
+  <el-amap-info-window v-for="window in windows" :position="window.position" :content="window.content" :open="window.open"></el-amap-info-window>
+</el-amap>
 ```
 
 ### Search-Box
 
 ```javascript
-<emfe-emfe-search-box class="search-box" :search-option="searchOption" :on-search-result="onSearchResult"></emfe-emfe-search-box>
-<emfe-amap vid="amapDemo">
-</emfe-amap>
+<el-amap-search-box class="search-box" :search-option="searchOption" :on-search-result="onSearchResult"></el-amap-search-box>
+<el-amap vid="amapDemo">
+</el-amap>
+```

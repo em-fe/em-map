@@ -7,15 +7,15 @@
 <script v-pre type="text/x-template" id="example">
 
   <template>
-    <div class="emfe-page-container">
-      <emfe-amap vid="amap" :zoom="zoom" :center="center" class="emfe-demo">
-        <emfe-emfe-ground-image v-for="groundimage in groundimages" :url="groundimage.url" :bounds="groundimage.bounds" :events="groundimage.events"></emfe-emfe-ground-image>
-      </emfe-amap>
+    <div class="amap-page-container">
+      <el-amap vid="amap" :zoom="zoom" :center="center" class="amap-demo">
+        <el-amap-ground-image v-for="groundimage in groundimages" :url="groundimage.url" :bounds="groundimage.bounds" :events="groundimage.events"></el-amap-ground-image>
+      </el-amap>
     </div>
   </template>
 
   <style>
-    .emfe-demo {
+    .amap-demo {
       height: 300px;
     }
   </style>
@@ -68,7 +68,7 @@ opacity | Number | 图片透明度，取值范围[0,1]，0表示完全透明，1
 
 函数 | 返回 | 说明
 ---|---|---|
-$$getInstance() | [EmfeMap.GroundImage](http://lbs.amap.com/api/javascript-api/reference/overlay#GroundImage) | 获取`groundImage`实例
+$$getInstance() | [AMap.GroundImage](http://lbs.amap.com/api/javascript-api/reference/overlay#GroundImage) | 获取`groundImage`实例
 
 ## 事件
 
