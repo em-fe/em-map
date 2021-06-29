@@ -2,13 +2,16 @@ import upperCamelCase from 'uppercamelcase';
 import CONST from '../utils/constant';
 import { toLngLat, toPixel, toBounds } from '../utils/convert-helper';
 import eventHelper from '../utils/event-helper';
+import { onEvent } from '../mixins/mitt';
+
 export default {
   mounted() {
     this.$amap = this.$amap || this.$parent.$amap;
     if (this.$amap) {
       this.register();
-    } else {
-      this.$on(CONST.AMAP_READY_EVENT, map => {
+    }
+    else {
+      onEvent(CONST.AMAP_READY_EVENT, (map) => {
         this.$amap = map;
         this.register();
       });
@@ -17,7 +20,7 @@ export default {
 
   destroyed() {
     this.unregisterEvents();
-    if (!this.$amapComponent) return;
+    if (!this.$amapComponent) { return; }
     this.$amapComponent.setMap && this.$amapComponent.setMap(null);
     this.$amapComponent.close && this.$amapComponent.close();
     this.$amapComponent.editor && this.$amapComponent.editor.close();
@@ -32,11 +35,11 @@ export default {
     },
 
     convertProps() {
-      let props = {};
-      if (this.$amap) props.map = this.$amap;
-      for (let key in this.$options.propsData) {
-        let propsValue = this.convertSignalProp(key, this.$options.propsData[key]);
-        if (propsValue === undefined) continue;
+      const props = {};
+      if (this.$amap) { props.map = this.$amap; }
+      for (const key in this.$options.propsData) {
+        const propsValue = this.convertSignalProp(key, this.$options.propsData[key]);
+        if (propsValue === undefined) { continue; }
         props[key] = propsValue;
       }
       return props;
@@ -45,29 +48,34 @@ export default {
     convertSignalProp(key, sourceDate) {
       if (this.converters && this.converters[key]) {
         return this.converters[key](sourceDate);
-      } else if (key === 'position') {
+      }
+      else if (key === 'position') {
         return toLngLat(sourceDate);
-      } else if (key === 'offset') {
+      }
+      else if (key === 'offset') {
         return toPixel(sourceDate);
-      } else if (key === 'bounds') {
+      }
+      else if (key === 'bounds') {
         return toBounds(sourceDate);
-      } else {
+      }
+      else {
         return sourceDate;
       }
     },
 
     registerEvents() {
       this.setEditorEvents && this.setEditorEvents();
-      if (this.$options.propsData.events) {
-        for (let eventName in this.events) {
-          eventHelper.addListener(this.$amapComponent, eventName, this.events[eventName]);
-        }
-      }
-      if (this.$options.propsData.onceEvents) {
-        for (let eventName in this.onceEvents) {
-          eventHelper.addListenerOnce(this.$amapComponent, eventName, this.onceEvents[eventName]);
-        }
-      }
+      // TODO [fix] propsData 在 3.0 删除了
+      // if (this.$options.propsData.events) {
+      //   for (let eventName in this.events) {
+      //     eventHelper.addListener(this.$amapComponent, eventName, this.events[eventName]);
+      //   }
+      // }
+      // if (this.$options.propsData.onceEvents) {
+      //   for (let eventName in this.onceEvents) {
+      //     eventHelper.addListenerOnce(this.$amapComponent, eventName, this.onceEvents[eventName]);
+      //   }
+      // }
     },
 
     unregisterEvents() {
@@ -75,17 +83,17 @@ export default {
     },
 
     setPropWatchers() {
-      for (let prop in this.$options.propsData) {
-        let handleFun = this.getHandlerFun(prop);
-        if (!handleFun && prop !== 'events') continue;
-        this.$watch(prop, nv => {
+      for (const prop in this.$options.propsData) {
+        const handleFun = this.getHandlerFun(prop);
+        if (!handleFun && prop !== 'events') { continue; }
+        this.$watch(prop, (nv) => {
           if (prop === 'events') {
             this.unregisterEvents();
             this.registerEvents();
             return;
           }
           if (handleFun === this.$amapComponent.setOptions) {
-            return handleFun.call(this.$amapComponent, {[prop]: this.convertSignalProp(prop, nv)});
+            return handleFun.call(this.$amapComponent, { [prop]: this.convertSignalProp(prop, nv) });
           }
           handleFun.call(this.$amapComponent, this.convertSignalProp(prop, nv));
         });
@@ -93,7 +101,7 @@ export default {
     },
 
     registerToManager() {
-      let manager = this.amapManager || this.$parent.amapManager;
+      const manager = this.amapManager || this.$parent.amapManager;
       if (manager && this.vid !== undefined) {
         manager.setComponent(this.vid, this.$amapComponent);
       }
@@ -102,9 +110,9 @@ export default {
     // some prop can not init by initial created methods
     initProps() {
       const props = ['editable', 'visible'];
-      props.forEach(propstr => {
+      props.forEach((propstr) => {
         if (this[propstr] !== undefined) {
-          let handleFun = this.getHandlerFun(propstr);
+          const handleFun = this.getHandlerFun(propstr);
           handleFun.call(this.$amapComponent, this.convertSignalProp(propstr, this[propstr]));
         }
       });
@@ -114,14 +122,20 @@ export default {
       this.initComponent && this.initComponent(this.convertProps());
       this.registerEvents();
       this.initProps();
-      this.setPropWatchers();
+      // this.setPropWatchers();
       this.registerToManager();
-      if (this.events && this.events.init) this.events.init(this.$amapComponent, this.$amap, this.amapManager || this.$parent.amapManager);
+      if (this.events && this.events.init) { this.events.init(this.$amapComponent, this.$amap, this.amapManager || this.$parent.amapManager); }
     },
 
     // helper method
     $$getInstance() {
       return this.$amapComponent;
     }
-  }
+  },
+  watch: {
+    position(newPostion) {
+      this.$amap.setCenter(newPostion);
+      this.$amapComponent.setPosition(newPostion);
+    },
+  },
 };

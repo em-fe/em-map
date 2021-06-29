@@ -3,7 +3,7 @@ export function toPixel(arr) {
 }
 
 export function pixelTo(pixel) {
-  if (Array.isArray(pixel)) return pixel;
+  if (Array.isArray(pixel)) { return pixel; }
   return [pixel.getX(), pixel.getY()];
 }
 
@@ -12,8 +12,8 @@ export function toLngLat(arr) {
 }
 
 export function lngLatTo(lngLat) {
-  if (!lngLat) return;
-  if (Array.isArray(lngLat)) return lngLat.slice();
+  if (!lngLat) { return; }
+  if (Array.isArray(lngLat)) { return lngLat.slice(); }
   return [lngLat.getLng(), lngLat.getLat()];
 }
 

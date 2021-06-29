@@ -1,231 +1,237 @@
 <template>
-<div class="el-vue-amap-container">
+  <div class="el-vue-amap-container">
     <div class="el-vue-amap"></div>
     <slot></slot>
-</div>
+  </div>
 </template>
 <script>
-   import guid from '../utils/guid';
-   import CONST from '../utils/constant';
-   import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper';
-   import registerMixin from '../mixins/register-component';
-   import {lazyAMapApiLoaderInstance} from '../services/injected-amap-api-instance';
-   export default {
-     name: 'el-amap',
-     mixins: [registerMixin],
-     props: [
-       'vid',
-       'events',
-       'center',
-       'zoom',
-       'draggEnable',
-       'level',
-       'zooms',
-       'lang',
-       'cursor',
-       'crs',
-       'animateEnable',
-       'isHotspot',
-       'defaultLayer',
-       'rotateEnable',
-       'resizeEnable',
-       'showIndoorMap',
-       'indoorMap',
-       'expandZoomRange',
-       'dragEnable',
-       'zoomEnable',
-       'doubleClickZoom',
-       'keyboardEnable',
-       'jogEnable',
-       'scrollWheel',
-       'touchZoom',
-       'mapStyle',
-       'plugin',
-       'features',
-       'amapManager'  // 地图管理 manager
-     ],
+import guid from '../utils/guid';
+import CONST from '../utils/constant';
+import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper';
+import registerMixin from '../mixins/register-component';
+import { lazyAMapApiLoaderInstance } from '../services/injected-amap-api-instance';
+import { emitEvent } from '../mixins/mitt';
 
-     beforeCreate() {
-       this._loadPromise = lazyAMapApiLoaderInstance.load();
-     },
+export default {
+  name: 'ElAmap',
+  mixins: [registerMixin],
+  props: [
+    'vid',
+    'events',
+    'center',
+    'zoom',
+    'draggEnable',
+    'level',
+    'zooms',
+    'lang',
+    'cursor',
+    'crs',
+    'animateEnable',
+    'isHotspot',
+    'defaultLayer',
+    'rotateEnable',
+    'resizeEnable',
+    'showIndoorMap',
+    'indoorMap',
+    'expandZoomRange',
+    'dragEnable',
+    'zoomEnable',
+    'doubleClickZoom',
+    'keyboardEnable',
+    'jogEnable',
+    'scrollWheel',
+    'touchZoom',
+    'mapStyle',
+    'plugin',
+    'features',
+    'amapManager' // 地图管理 manager
+  ],
 
-     destroyed() {
-       this.$amap && this.$amap.destroy();
-     },
+  data() {
+    return {
+      converters: {
+        center(arr) {
+          return toLngLat(arr);
+        }
+      },
+      handlers: {
+        zoomEnable(flag) {
+          this.setStatus({ zoomEnable: flag });
+        },
+        dragEnable(flag) {
+          this.setStatus({ dragEnable: flag });
+        },
+        rotateEnable(flag) {
+          this.setStatus({ rotateEnable: flag });
+        }
+      }
+    };
+  },
 
-     computed: {
-       /**
+  computed: {
+    /**
         * convert plugin prop from 'plugin' to 'plugins'
         * unify plugin options
         * @return {Array}
         */
-       plugins() {
-         let plus = [];
-         // amap plugin prefix reg
-         const amap_prefix_reg = /^AMap./;
+    plugins() {
+      let plus = [];
+      // amap plugin prefix reg
+      const amap_prefix_reg = /^AMap./;
 
-         // parse plugin full name
-         const parseFullName = (pluginName) => {
-           return amap_prefix_reg.test(pluginName) ? pluginName : 'AMap.' + pluginName;
-         };
+      // parse plugin full name
+      const parseFullName = (pluginName) => {
+        return amap_prefix_reg.test(pluginName) ? pluginName : `AMap.${pluginName}`;
+      };
 
-         // parse plugin short name
-         const parseShortName = (pluginName) => {
-           return pluginName.replace(amap_prefix_reg, '');
-         };
+      // parse plugin short name
+      const parseShortName = (pluginName) => {
+        return pluginName.replace(amap_prefix_reg, '');
+      };
 
-         if (typeof this.plugin === 'string') {
-           plus.push({
-             pName: parseFullName(this.plugin),
-             sName: parseShortName(this.plugin)
-           });
-         } else if (this.plugin instanceof Array) {
-           plus = this.plugin.map(oPlugin => {
-             let nPlugin = {};
+      if (typeof this.plugin === 'string') {
+        plus.push({
+          pName: parseFullName(this.plugin),
+          sName: parseShortName(this.plugin)
+        });
+      }
+      else if (this.plugin instanceof Array) {
+        plus = this.plugin.map((oPlugin) => {
+          let nPlugin = {};
 
-             if (typeof oPlugin === 'string') {
-               nPlugin = {
-                 pName: parseFullName(oPlugin),
-                 sName: parseShortName(oPlugin)
-               };
-             } else {
-               oPlugin.pName = parseFullName(oPlugin.pName);
-               oPlugin.sName = parseShortName(oPlugin.pName);
-               nPlugin = oPlugin;
-             }
+          if (typeof oPlugin === 'string') {
+            nPlugin = {
+              pName: parseFullName(oPlugin),
+              sName: parseShortName(oPlugin)
+            };
+          }
+          else {
+            oPlugin.pName = parseFullName(oPlugin.pName);
+            oPlugin.sName = parseShortName(oPlugin.pName);
+            nPlugin = oPlugin;
+          }
 
-             return nPlugin;
-           });
-         }
+          return nPlugin;
+        });
+      }
 
-         return plus;
-       }
-     },
+      return plus;
+    }
+  },
 
-     data() {
-       return {
-         converters: {
-           center(arr) {
-             return toLngLat(arr);
-           }
-         },
-         handlers: {
-           zoomEnable(flag) {
-             this.setStatus({zoomEnable: flag});
-           },
-           dragEnable(flag) {
-             this.setStatus({dragEnable: flag});
-           },
-           rotateEnable(flag) {
-             this.setStatus({rotateEnable: flag});
-           }
-         }
-       };
-     },
+  beforeCreate() {
+    this._loadPromise = lazyAMapApiLoaderInstance.load();
+  },
 
-     mounted() {
-       this.createMap();
-     },
+  unmounted() {
+    this.$amap && this.$amap.destroy();
+  },
 
-     addEvents() {
-       this.$amapComponent.on('moveend', () => {
-         let centerLngLat = this.$amapComponent.getCenter();
-         this.center = [centerLngLat.getLng(), centerLngLat.getLat()];
-       });
-     },
+  mounted() {
+    this.createMap();
+  },
 
-     methods: {
-       addPlugins() {
-         let _notInjectPlugins = this.plugins.filter(_plugin => !AMap[_plugin.sName]);
+  addEvents() {
+    this.$amapComponent.on('moveend', () => {
+      const centerLngLat = this.$amapComponent.getCenter();
+      this.center = [centerLngLat.getLng(), centerLngLat.getLat()];
+    });
+  },
 
-         if (!_notInjectPlugins || !_notInjectPlugins.length) return this.addMapControls();
-         return this.$amapComponent.plugin(_notInjectPlugins, this.addMapControls);
-       },
+  methods: {
+    addPlugins() {
+      const _notInjectPlugins = this.plugins.filter(_plugin => !AMap[_plugin.sName]);
 
-       addMapControls() {
-         if (!this.plugins || !this.plugins.length) return;
+      if (!_notInjectPlugins || !_notInjectPlugins.length) { return this.addMapControls(); }
+      return this.$amapComponent.plugin(_notInjectPlugins, this.addMapControls);
+    },
 
-         //  store plugin instances
-         this.$plugins = this.$plugins || {};
+    addMapControls() {
+      if (!this.plugins || !this.plugins.length) { return; }
 
-         this.plugins.forEach(_plugin => {
-           let realPlugin = this.convertAMapPluginProps(_plugin);
-           this.$plugins[realPlugin.pName] = new AMap[realPlugin.sName](realPlugin);
+      //  store plugin instances
+      this.$plugins = this.$plugins || {};
 
-           // add plugin into map
-           this.$amapComponent.addControl(this.$plugins[realPlugin.pName]);
+      this.plugins.forEach((_plugin) => {
+        const realPlugin = this.convertAMapPluginProps(_plugin);
+        this.$plugins[realPlugin.pName] = new AMap[realPlugin.sName](realPlugin);
 
-           // register plugin event
-           if (_plugin.events) {
-             // invoke init callback
-             if (realPlugin.events.init) {
-               realPlugin.events.init(this.$plugins[realPlugin.pName]);
-             }
+        // add plugin into map
+        this.$amapComponent.addControl(this.$plugins[realPlugin.pName]);
 
-             for (let k in _plugin.events) {
-               let v = _plugin.events[k];
-               if (k === 'init') continue;
-               AMap.event.addListener(this.$plugins[realPlugin.pName], k, v);
-             }
-           }
-         });
-       },
+        // register plugin event
+        if (_plugin.events) {
+          // invoke init callback
+          if (realPlugin.events.init) {
+            realPlugin.events.init(this.$plugins[realPlugin.pName]);
+          }
 
-       /**
+          for (const k in _plugin.events) {
+            const v = _plugin.events[k];
+            if (k === 'init') { continue; }
+            AMap.event.addListener(this.$plugins[realPlugin.pName], k, v);
+          }
+        }
+      });
+    },
+
+    /**
         * parse plugin
         * @param  {Object}
         * @return {Object}
         */
-       convertAMapPluginProps(plugin) {
+    convertAMapPluginProps(plugin) {
+      if (typeof plugin === 'object' && plugin.pName) {
+        switch (plugin.pName) {
+          case 'AMap.ToolBar': {
+            // parse offset
+            if (plugin.offset && plugin.offset instanceof Array) {
+              plugin.offset = toPixel(plugin.offset);
+            }
+            break;
+          }
+          case 'AMap.Scale': {
+            // parse offset
+            if (plugin.offset && plugin.offset instanceof Array) {
+              plugin.offset = toPixel(plugin.offset);
+            }
+            break;
+          }
+        }
+        return plugin;
+      }
+      else {
+        return '';
+      }
+    },
 
-         if (typeof plugin === 'object' && plugin.pName) {
-           switch (plugin.pName) {
-             case 'AMap.ToolBar': {
-               // parse offset
-               if (plugin.offset && plugin.offset instanceof Array) {
-                 plugin.offset = toPixel(plugin.offset);
-               }
-               break;
-             }
-             case 'AMap.Scale': {
-               // parse offset
-               if (plugin.offset && plugin.offset instanceof Array) {
-                 plugin.offset = toPixel(plugin.offset);
-               }
-               break;
-             }
-           }
-           return plugin;
-         } else {
-           return '';
-         }
-       },
+    setStatus(option) {
+      this.$amap.setStatus(option);
+    },
 
-       setStatus(option) {
-         this.$amap.setStatus(option);
-       },
-
-       createMap() {
-         this._loadPromise.then(() => {
-           let mapElement = this.$el.querySelector('.el-vue-amap');
-           const elementID = this.vid || guid();
-           mapElement.id = elementID;
-           this.$amap = this.$amapComponent = new AMap.Map(elementID, this.convertProps());
-           if (this.amapManager) this.amapManager.setMap(this.$amap);
-           this.$emit(CONST.AMAP_READY_EVENT, this.$amap);
-           this.$children.forEach(component => {
-             component.$emit(CONST.AMAP_READY_EVENT, this.$amap);
-           });
-           if (this.plugins && this.plugins.length) {
-             this.addPlugins();
-           }
-         });
-       },
-       $$getCenter() {
-         return lngLatTo(this.center);
-       }
-     }
-   };
+    createMap() {
+      this._loadPromise.then(() => {
+        const mapElement = this.$el.querySelector('.el-vue-amap');
+        const elementID = this.vid || guid();
+        mapElement.id = elementID;
+        this.$amap = this.$amapComponent = new AMap.Map(elementID, this.convertProps());
+        if (this.amapManager) { this.amapManager.setMap(this.$amap); }
+        emitEvent(CONST.AMAP_READY_EVENT, this.$amap);
+        // TODO [fix] 删除了 $children
+        // https://v3.cn.vuejs.org/guide/migration/children.html#_2-x-%E8%AF%AD%E6%B3%95
+        //  this.$children.forEach(component => {
+        //    emitEvent(CONST.AMAP_READY_EVENT, this.$amap);
+        //  });
+        if (this.plugins && this.plugins.length) {
+          this.addPlugins();
+        }
+      });
+    },
+    $$getCenter() {
+      return lngLatTo(this.center);
+    }
+  }
+};
 </script>
 
 <style lang="scss">

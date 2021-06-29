@@ -3,7 +3,7 @@
 import registerMixin from '../mixins/register-component';
 import { lngLatTo, pixelTo } from '../utils/convert-helper';
 export default {
-  name: 'el-amap-marker',
+  name: 'ElAmapMarker',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -66,3 +66,7 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+
+</style>
