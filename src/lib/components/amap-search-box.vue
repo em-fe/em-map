@@ -110,11 +110,17 @@
 </style>
 <script>
 import RegisterComponentMixin from '../mixins/register-component';
-import { lazyAMapApiLoaderInstance } from '../services/injected-amap-api-instance';
+import { getMapInstance } from '../services/use-instance';
 export default {
   name: 'ElAmapSearchBox',
   mixins: [RegisterComponentMixin],
   props: ['searchOption', 'onSearchResult', 'events', 'default'],
+  setup() {
+    const mapInstance = getMapInstance();
+    return {
+      mapInstance,
+    };
+  },
   data() {
     return {
       keyword: this.default || '',
@@ -141,8 +147,7 @@ export default {
     }
   },
   mounted() {
-    const _loadApiPromise = lazyAMapApiLoaderInstance.value.load();
-    _loadApiPromise.then(() => {
+    if (this.mapInstance) {
       this.loaded = true;
       this._onSearchResult = this.onSearchResult;
       // register init event
@@ -150,7 +155,7 @@ export default {
         autoComplete: this._autoComplete,
         placeSearch: this._placeSearch
       });
-    });
+    }
   },
   methods: {
     autoComplete() {

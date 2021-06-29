@@ -9,7 +9,7 @@ import guid from '../utils/guid';
 import CONST from '../utils/constant';
 import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper';
 import registerMixin from '../mixins/register-component';
-import { lazyAMapApiLoaderInstance } from '../services/injected-amap-api-instance';
+import { getMapInstance } from '../services/use-instance';
 import { emitEvent } from '../mixins/mitt';
 
 export default {
@@ -46,6 +46,13 @@ export default {
     'features',
     'amapManager' // 地图管理 manager
   ],
+
+  setup() {
+    const mapInstance = getMapInstance();
+    return {
+      mapInstance,
+    };
+  },
 
   data() {
     return {
@@ -118,17 +125,15 @@ export default {
       return plus;
     }
   },
-
-  beforeCreate() {
-    this._loadPromise = lazyAMapApiLoaderInstance.value.load();
-  },
-
   unmounted() {
     this.$amap && this.$amap.destroy();
   },
 
   mounted() {
-    this.createMap();
+    if (this.mapInstance) {
+      this._loadPromise = this.mapInstance.load();
+      this.createMap();
+    }
   },
 
   addEvents() {

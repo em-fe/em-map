@@ -1,14 +1,22 @@
-import { ref } from 'vue';
-
 import AMapAPILoader from './lazy-amap-api-loader';
-let lazyAMapApiLoaderInstance = ref(null);
+
+import { setMapInstance, getMapInstance } from './use-instance';
+
+const lazyAMapApiLoaderInstance = null;
 
 export const initAMapApiLoader = (config) => {
   const isServer = typeof window === 'undefined';
   if (isServer) { return; }
+
+  const instance = getMapInstance();
+
+  let mapInstance = null;
   // if (lazyAMapApiLoaderInstance) throw new Error('You has already initial your lazyAMapApiLoaderInstance, just import it');
-  if (lazyAMapApiLoaderInstance.value) { return; }
-  if (!lazyAMapApiLoaderInstance.value) { lazyAMapApiLoaderInstance.value = new AMapAPILoader(config); }
-  lazyAMapApiLoaderInstance.value.load();
+  if (instance) { return; }
+  if (!instance) {
+    mapInstance = new AMapAPILoader(config);
+    setMapInstance(mapInstance);
+  }
+  mapInstance.load();
 };
 export { lazyAMapApiLoaderInstance };
