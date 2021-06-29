@@ -10,7 +10,7 @@
 
 ## 安装
 ```
-npm install -S vue-amap
+npm install -S em-map
 ```
 
 ## 文档
@@ -99,3 +99,10 @@ VueAMap.initAMapApiLoader({
 <el-amap vid="amapDemo">
 </el-amap>
 ```
+
+
+## 参考
+
+- [高德地图文档](https://lbs.amap.com/api/javascript-api/guide/abc/quickstart)
+- [点标记 Marker 文档](https://lbs.amap.com/api/javascript-api/guide/overlays/marker)
+- [点标记 Marker demo](https://lbs.amap.com/demo/javascript-api/example/marker/marker-content)
