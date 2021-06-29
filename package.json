@@ -81,7 +81,6 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "mitt": "^3.0.0",
-    "uppercamelcase": "^3.0.0"
+    "mitt": "^3.0.0"
   }
 }

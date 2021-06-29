@@ -1,4 +1,4 @@
-import upperCamelCase from 'uppercamelcase';
+import { firstCapitalize } from '@fe6/shared';
 import CONST from '../utils/constant';
 import { toLngLat, toPixel, toBounds } from '../utils/convert-helper';
 import eventHelper from '../utils/event-helper';
@@ -31,7 +31,7 @@ export default {
       if (this.handlers && this.handlers[prop]) {
         return this.handlers[prop];
       }
-      return this.$amapComponent[`set${upperCamelCase(prop)}`] || this.$amapComponent.setOptions;
+      return this.$amapComponent[`set${firstCapitalize(prop)}`] || this.$amapComponent.setOptions;
     },
 
     convertProps() {

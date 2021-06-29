@@ -1,7 +1,7 @@
 // polyfills
 // import './polyfills';
 
-import upperCamelCase from 'uppercamelcase';
+import { firstCapitalize } from '@fe6/shared';
 
 // 初始化接口
 import { initAMapApiLoader } from './services/injected-amap-api-instance';
@@ -40,7 +40,7 @@ VueAMap.install = (Vue) => {
   Vue.config.optionMergeStrategies.deferredReady = Vue.config.optionMergeStrategies.created;
   components.map((_component) => {
     Vue.component(_component.name, _component);
-    VueAMap[upperCamelCase(_component.name).replace(/^El/, '')] = _component;
+    VueAMap[firstCapitalize(_component.name).replace(/^El/, '')] = _component;
   });
 };
 
