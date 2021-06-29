@@ -120,7 +120,7 @@ export default {
   },
 
   beforeCreate() {
-    this._loadPromise = lazyAMapApiLoaderInstance.load();
+    this._loadPromise = lazyAMapApiLoaderInstance.value.load();
   },
 
   unmounted() {

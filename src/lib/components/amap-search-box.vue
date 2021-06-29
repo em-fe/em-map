@@ -141,7 +141,7 @@ export default {
     }
   },
   mounted() {
-    const _loadApiPromise = lazyAMapApiLoaderInstance.load();
+    const _loadApiPromise = lazyAMapApiLoaderInstance.value.load();
     _loadApiPromise.then(() => {
       this.loaded = true;
       this._onSearchResult = this.onSearchResult;
