@@ -1,6 +1,6 @@
 {
   "name": "em-map",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "em地图组件",
   "main": "./dist/index.js",
   "directories": {
