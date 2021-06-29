@@ -1,21 +1,29 @@
 <template>
-  <div class="el-vue-search-box-container"
-       @keydown.up="selectTip('up')"
-       @keydown.down="selectTip('down')">
+  <div
+    class="el-vue-search-box-container"
+    @keydown.up="selectTip('up')"
+    @keydown.down="selectTip('down')"
+  >
     <div class="search-box-wrapper">
-      <input type="text"
+      <input
         v-model="keyword"
+        type="text"
         @keyup.enter="search"
-        @input="autoComplete">
-      <span class="search-btn" @click="search" >搜索</span>
+        @input="autoComplete"
+      >
+      <span class="search-btn" @click="search">搜索</span>
     </div>
     <div class="search-tips">
       <ul>
-        <li v-for="(tip, index) in tips"
+        <li
+          v-for="(tip, index) in tips"
           :key="index"
+          :class="{'autocomplete-selected': index === selectedTip}"
           @click="changeTip(tip)"
           @mouseover="selectedTip=index"
-          :class="{'autocomplete-selected': index === selectedTip}">{{tip.name}}</li>
+        >
+          {{ tip.name }}
+        </li>
       </ul>
     </div>
   </div>
@@ -23,12 +31,24 @@
 <style lang="scss">
   .el-vue-search-box-container {
     position: relative;
-    width: 360px;
-    height: 45px;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
     background: #fff;
-    box-shadow: 0 2px 2px rgba(0,0,0,.15);
-    border-radius: 2px 3px 3px 2px;
     z-index: 10;
+    box-sizing: border-box;
+    margin: 0;
+    font-variant: tabular-nums;
+    list-style: none;
+    font-feature-settings: 'tnum';
+    display: inline-block;
+    padding: 4px 11px;
+    color: rgba(0,0,0,.85);
+    font-size: 14px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    transition: all .3s;
+
     .search-box-wrapper {
       position: absolute;
       display: flex;
@@ -90,9 +110,9 @@
 </style>
 <script>
 import RegisterComponentMixin from '../mixins/register-component';
-import {lazyAMapApiLoaderInstance} from '../services/injected-amap-api-instance';
+import { lazyAMapApiLoaderInstance } from '../services/injected-amap-api-instance';
 export default {
-  name: 'el-amap-search-box',
+  name: 'ElAmapSearchBox',
   mixins: [RegisterComponentMixin],
   props: ['searchOption', 'onSearchResult', 'events', 'default'],
   data() {
@@ -103,8 +123,25 @@ export default {
       loaded: false
     };
   },
+  computed: {
+    _autoComplete() {
+      if (!this.loaded) { return; }
+      return new AMap.Autocomplete(this.searchOption || {});
+    },
+    _placeSearch() {
+      if (!this.loaded) { return; }
+      return new AMap.PlaceSearch(this.searchOption || {});
+    }
+  },
+  watch: {
+    default(val, oldVal) {
+      if (val !== oldVal) {
+        this.keyword = val;
+      }
+    }
+  },
   mounted() {
-    let _loadApiPromise = lazyAMapApiLoaderInstance.load();
+    const _loadApiPromise = lazyAMapApiLoaderInstance.load();
     _loadApiPromise.then(() => {
       this.loaded = true;
       this._onSearchResult = this.onSearchResult;
@@ -115,19 +152,9 @@ export default {
       });
     });
   },
-  computed: {
-    _autoComplete() {
-      if (!this.loaded) return;
-      return new AMap.Autocomplete(this.searchOption || {});
-    },
-    _placeSearch() {
-      if (!this.loaded) return;
-      return new AMap.PlaceSearch(this.searchOption || {});
-    }
-  },
   methods: {
     autoComplete() {
-      if (!this.keyword || !this._autoComplete) return;
+      if (!this.keyword || !this._autoComplete) { return; }
       this._autoComplete.search(this.keyword, (status, result) => {
         if (status === 'complete') {
           this.tips = result.tips;
@@ -136,17 +163,18 @@ export default {
     },
     search() {
       this.tips = [];
-      if (!this._placeSearch) return;
+      if (!this._placeSearch) { return; }
       this._placeSearch.search(this.keyword, (status, result) => {
         if (result && result.poiList && result.poiList.count) {
-          let {poiList: {pois}} = result;
-          let LngLats = pois.map(poi => {
+          const { poiList: { pois } } = result;
+          const LngLats = pois.map((poi) => {
             poi.lat = poi.location.lat;
             poi.lng = poi.location.lng;
             return poi;
           });
           this._onSearchResult(LngLats);
-        } else if (result.poiList === undefined) {
+        }
+        else if (result.poiList === undefined) {
           throw new Error(result);
         }
       });
@@ -159,16 +187,10 @@ export default {
       if (type === 'up' && this.selectedTip > 0) {
         this.selectedTip -= 1;
         this.keyword = this.tips[this.selectedTip].name;
-      } else if (type === 'down' && this.selectedTip + 1 < this.tips.length) {
+      }
+      else if (type === 'down' && this.selectedTip + 1 < this.tips.length) {
         this.selectedTip += 1;
         this.keyword = this.tips[this.selectedTip].name;
-      }
-    }
-  },
-  watch: {
-    default(val, oldVal) {
-      if (val !== oldVal) {
-        this.keyword = val;
       }
     }
   }

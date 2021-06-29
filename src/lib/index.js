@@ -1,10 +1,10 @@
 // polyfills
-import './polyfills';
+// import './polyfills';
 
 import upperCamelCase from 'uppercamelcase';
 
 // 初始化接口
-import {initAMapApiLoader} from './services/injected-amap-api-instance';
+import { initAMapApiLoader } from './services/injected-amap-api-instance';
 
 // 组建导入
 import AMap from './components/amap.vue';
@@ -19,7 +19,7 @@ import AMapPolygon from './components/amap-polygon.vue';
 // managers
 import AMapManager from './managers/amap-manager';
 
-let components = [
+const components = [
   AMap,
   AMapMarker,
   AMapSearchBox,
@@ -30,15 +30,15 @@ let components = [
   AMapPolyline
 ];
 
-let VueAMap = {
+const VueAMap = {
   initAMapApiLoader,
   AMapManager
 };
 
 VueAMap.install = (Vue) => {
-  if (VueAMap.installed) return;
+  if (VueAMap.installed) { return; }
   Vue.config.optionMergeStrategies.deferredReady = Vue.config.optionMergeStrategies.created;
-  components.map(_component => {
+  components.map((_component) => {
     Vue.component(_component.name, _component);
     VueAMap[upperCamelCase(_component.name).replace(/^El/, '')] = _component;
   });
@@ -46,7 +46,7 @@ VueAMap.install = (Vue) => {
 
 const install = function(Vue, opts = {}) {
   /* istanbul ignore if */
-  if (install.installed) return;
+  if (install.installed) { return; }
   VueAMap.install(Vue);
 };
 
@@ -54,7 +54,7 @@ const install = function(Vue, opts = {}) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
   // window.VueAmap = VueAMap;
-};
+}
 
 export default VueAMap;
 

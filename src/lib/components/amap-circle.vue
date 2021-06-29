@@ -4,7 +4,7 @@ import registerMixin from '../mixins/register-component';
 import { toLngLat, lngLatTo } from '../utils/convert-helper';
 import editorMixin from '../mixins/editor-component';
 export default {
-  name: 'el-amap-circle',
+  name: 'ElAmapCircle',
   mixins: [registerMixin, editorMixin],
   props: [
     'vid',

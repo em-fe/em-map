@@ -4,7 +4,7 @@
 import { toLngLat } from '../utils/convert-helper';
 import registerMixin from '../mixins/register-component';
 export default {
-  name: 'el-amap-info-window',
+  name: 'ElAmapInfoWindow',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -20,7 +20,7 @@ export default {
     'events'
   ],
   data() {
-    let self = this;
+    const self = this;
     return {
       converters: {
 
@@ -28,7 +28,7 @@ export default {
       handlers: {
         visible(flag) {
           // fixed Amap info-window reopen
-          let position = this.getPosition();
+          const position = this.getPosition();
           if (position) {
             flag === false ? this.close() : this.open(self.$amap, [position.lng, position.lat]);
           }
@@ -36,13 +36,13 @@ export default {
       }
     };
   },
-  destroyed() {
-    this.$amapComponent.close();;
+  unmounted() {
+    this.$amapComponent.close();
   },
   methods: {
     initComponent(options) {
       this.$amapComponent = new AMap.InfoWindow(options);
-      if (this.visible !== false) this.$amapComponent.open(this.$amap, toLngLat(this.position));
+      if (this.visible !== false) { this.$amapComponent.open(this.$amap, toLngLat(this.position)); }
     }
   }
 };

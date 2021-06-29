@@ -1,6 +1,6 @@
 const DEFAULT_AMP_CONFIG = {
   key: null,
-  v: 1.3,
+  v: '1.4.15',
   protocol: 'https',
   hostAndPath: 'webapi.amap.com/maps',
   plugin: [],
@@ -27,7 +27,7 @@ export default class AMapAPILoader {
       return Promise.resolve();
     }
 
-    if (this._scriptLoadingPromise) return this._scriptLoadingPromise;
+    if (this._scriptLoadingPromise) { return this._scriptLoadingPromise; }
     const script = this._document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
@@ -37,7 +37,7 @@ export default class AMapAPILoader {
     const UIPromise = this._config.uiVersion ? this.loadUIAMap() : null;
 
     this._scriptLoadingPromise = new Promise((resolve, reject) => {
-      this._window['amapInitComponent'] = () => {
+      this._window.amapInitComponent = () => {
         while (this._queueEvents.length) {
           this._queueEvents.pop().apply();
         }
@@ -46,7 +46,8 @@ export default class AMapAPILoader {
             window.initAMapUI();
             return resolve();
           });
-        } else {
+        }
+        else {
           return resolve();
         }
       };
@@ -83,26 +84,25 @@ export default class AMapAPILoader {
       // push default types
       config.plugin.push('Autocomplete', 'PlaceSearch', 'PolyEditor', 'CircleEditor');
 
-      config.plugin = config.plugin.map(item => {
-        return (amap_prefix_reg.test(item)) ? item : 'AMap.' + item;
+      config.plugin = config.plugin.map((item) => {
+        return (amap_prefix_reg.test(item)) ? item : `AMap.${item}`;
       });
     }
 
     const params = Object.keys(config)
-                         .filter(k => ~paramKeys.indexOf(k))
-                         .filter(k => config[k] != null)
-                         .filter(k => {
-                           return !Array.isArray(config[k]) ||
-                                (Array.isArray(config[k]) && config[k].length > 0);
-                         })
-                         .map(k => {
-                           let v = config[k];
-                           if (Array.isArray(v)) return { key: k, value: v.join(',')};
-                           return {key: k, value: v};
-                         })
-                         .map(entry => `${entry.key}=${entry.value}`)
-                         .join('&');
+      .filter(k => ~paramKeys.indexOf(k))
+      .filter(k => config[k] != null)
+      .filter((k) => {
+        return !Array.isArray(config[k])
+                                || (Array.isArray(config[k]) && config[k].length > 0);
+      })
+      .map((k) => {
+        const v = config[k];
+        if (Array.isArray(v)) { return { key: k, value: v.join(',') }; }
+        return { key: k, value: v };
+      })
+      .map(entry => `${entry.key}=${entry.value}`)
+      .join('&');
     return `${this._config.protocol}://${this._config.hostAndPath}?${params}`;
   }
-
 }
