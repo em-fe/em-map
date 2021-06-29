@@ -44,18 +44,18 @@ export default {
   methods: {
     initComponent() {
       const options = this.convertProps();
-      this.$amapComponent = new AMap.Polygon(options);
-      this.$amapComponent.editor = new AMap.PolyEditor(this.$amap, this.$amapComponent);
+      this.amapComponent = new AMap.Polygon(options);
+      this.amapComponent.editor = new AMap.PolyEditor(this.amap, this.amapComponent);
     },
     $$getPath() {
-      return this.$amapComponent.getPath().map(lngLatTo);
+      return this.amapComponent.getPath().map(lngLatTo);
     },
     $$getExtData() {
-      return this.$amapComponent.getExtData();
+      return this.amapComponent.getExtData();
     },
     $$contains(point) {
       if (Array.isArray(point)) { point = new AMap.LngLat(point[0], point[1]); }
-      return this.$amapComponent.getBounds().contains(point);
+      return this.amapComponent.getBounds().contains(point);
     }
   }
 };

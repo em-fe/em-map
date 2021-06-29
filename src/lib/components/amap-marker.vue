@@ -52,16 +52,16 @@ export default {
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new AMap.Marker(options);
+      this.amapComponent = new AMap.Marker(options);
     },
     $$getExtData() {
-      return this.$amapComponent.getExtData();
+      return this.amapComponent.getExtData();
     },
     $$getPosition() {
-      return lngLatTo(this.$amapComponent.getPosition());
+      return lngLatTo(this.amapComponent.getPosition());
     },
     $$getOffset() {
-      return pixelTo(this.$amapComponent.getOffset());
+      return pixelTo(this.amapComponent.getOffset());
     }
   }
 };

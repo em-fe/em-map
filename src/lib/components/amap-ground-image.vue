@@ -23,18 +23,18 @@ export default {
             this.setMap(null);
           }
           else {
-            this.setMap(this.$amap);
+            this.setMap(this.amap);
           }
         }
       }
     };
   },
   unmounted() {
-    this.$amapComponent.setMap(null);
+    this.amapComponent.setMap(null);
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new AMap.GroundImage(options.url, options.bounds, options);
+      this.amapComponent = new AMap.GroundImage(options.url, options.bounds, options);
     }
   }
 };

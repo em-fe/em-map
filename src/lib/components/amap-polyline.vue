@@ -42,17 +42,17 @@ export default {
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new AMap.Polyline(options);
-      this.$amapComponent.editor = new AMap.PolyEditor(this.$amap, this.$amapComponent);
+      this.amapComponent = new AMap.Polyline(options);
+      this.amapComponent.editor = new AMap.PolyEditor(this.amap, this.amapComponent);
     },
     $$getPath() {
-      return this.$amapComponent.getPath().map(lngLatTo);
+      return this.amapComponent.getPath().map(lngLatTo);
     },
     $$getBounds() {
-      return this.$amapComponent.getBounds();
+      return this.amapComponent.getBounds();
     },
     $$getExtData() {
-      return this.$amapComponent.getExtData();
+      return this.amapComponent.getExtData();
     }
   }
 };

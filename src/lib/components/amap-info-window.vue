@@ -30,19 +30,19 @@ export default {
           // fixed Amap info-window reopen
           const position = this.getPosition();
           if (position) {
-            flag === false ? this.close() : this.open(self.$amap, [position.lng, position.lat]);
+            flag === false ? this.close() : this.open(self.amap, [position.lng, position.lat]);
           }
         }
       }
     };
   },
   unmounted() {
-    this.$amapComponent.close();
+    this.amapComponent.close();
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new AMap.InfoWindow(options);
-      if (this.visible !== false) { this.$amapComponent.open(this.$amap, toLngLat(this.position)); }
+      this.amapComponent = new AMap.InfoWindow(options);
+      if (this.visible !== false) { this.amapComponent.open(this.amap, toLngLat(this.position)); }
     }
   }
 };

@@ -48,11 +48,11 @@ export default {
   },
   methods: {
     initComponent(options) {
-      this.$amapComponent = new AMap.Circle(options);
-      this.$amapComponent.editor = new AMap.CircleEditor(this.$amap, this.$amapComponent);
+      this.amapComponent = new AMap.Circle(options);
+      this.amapComponent.editor = new AMap.CircleEditor(this.amap, this.amapComponent);
     },
     $$getCenter() {
-      return lngLatTo(this.$amapComponent.getCenter());
+      return lngLatTo(this.amapComponent.getCenter());
     }
   }
 };

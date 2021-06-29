@@ -1,10 +1,11 @@
 <template>
   <div class="el-vue-amap-container">
-    <div class="el-vue-amap"></div>
+    <div class="el-vue-amap" ref="amapNode"></div>
     <slot></slot>
   </div>
 </template>
 <script>
+import { watchEffect, onMounted, nextTick, computed, ref } from 'vue';
 import guid from '../utils/guid';
 import CONST from '../utils/constant';
 import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper';
@@ -47,10 +48,88 @@ export default {
     'amapManager' // 地图管理 manager
   ],
 
-  setup() {
-    const mapInstance = getMapInstance();
+  setup(props) {
+    const amapNode = ref(null);
+    let amapComponent = null;
+    let amap = null;
+
+    const plugins = computed(() => {
+      let plus = [];
+      // amap plugin prefix reg
+      const amap_prefix_reg = /^AMap./;
+
+      // parse plugin full name
+      const parseFullName = (pluginName) => {
+        return amap_prefix_reg.test(pluginName) ? pluginName : `AMap.${pluginName}`;
+      };
+
+      // parse plugin short name
+      const parseShortName = (pluginName) => {
+        return pluginName.replace(amap_prefix_reg, '');
+      };
+
+      if (typeof props.plugin === 'string') {
+        plus.push({
+          pName: parseFullName(props.plugin),
+          sName: parseShortName(props.plugin)
+        });
+      }
+      else if (props.plugin instanceof Array) {
+        plus = props.plugin.map((oPlugin) => {
+          let nPlugin = {};
+
+          if (typeof oPlugin === 'string') {
+            nPlugin = {
+              pName: parseFullName(oPlugin),
+              sName: parseShortName(oPlugin)
+            };
+          }
+          else {
+            oPlugin.pName = parseFullName(oPlugin.pName);
+            oPlugin.sName = parseShortName(oPlugin.pName);
+            nPlugin = oPlugin;
+          }
+
+          return nPlugin;
+        });
+      }
+
+      return plus;
+    });
+
+    const addPlugins = () => {
+      const _notInjectPlugins = plugins.value.filter(_plugin => !AMap[_plugin.sName]);
+
+      if (!_notInjectPlugins || !_notInjectPlugins.length) { return addMapControls(); }
+      return amapComponent.plugin(_notInjectPlugins, addMapControls);
+    };
+    const renderMap = async () => {
+      const mapInstance = getMapInstance();
+      if (mapInstance.value && amapNode.value) {
+        await mapInstance.value.load();
+        const elementID = props.vid || guid();
+        amapNode.value.id = elementID;
+        amap = amapComponent = new AMap.Map(elementID);
+        if (props.amapManager) { props.amapManager.setMap(amap); }
+        emitEvent(CONST.AMAP_READY_EVENT, amap);
+        // TODO [fix] 删除了 $children
+        // https://v3.cn.vuejs.org/guide/migration/children.html#_2-x-%E8%AF%AD%E6%B3%95
+        //  this.$children.forEach(component => {
+        //    emitEvent(CONST.AMAP_READY_EVENT, this.amap);
+        //  });
+        if (plugins.value && plugins.value.length) {
+          addPlugins();
+        }
+      }
+    };
+
+    onMounted(async () => {
+      await renderMap();
+    });
+
     return {
-      mapInstance,
+      amapNode,
+      plugins,
     };
   },
 
@@ -75,81 +154,18 @@ export default {
     };
   },
 
-  computed: {
-    /**
-        * convert plugin prop from 'plugin' to 'plugins'
-        * unify plugin options
-        * @return {Array}
-        */
-    plugins() {
-      let plus = [];
-      // amap plugin prefix reg
-      const amap_prefix_reg = /^AMap./;
-
-      // parse plugin full name
-      const parseFullName = (pluginName) => {
-        return amap_prefix_reg.test(pluginName) ? pluginName : `AMap.${pluginName}`;
-      };
-
-      // parse plugin short name
-      const parseShortName = (pluginName) => {
-        return pluginName.replace(amap_prefix_reg, '');
-      };
-
-      if (typeof this.plugin === 'string') {
-        plus.push({
-          pName: parseFullName(this.plugin),
-          sName: parseShortName(this.plugin)
-        });
-      }
-      else if (this.plugin instanceof Array) {
-        plus = this.plugin.map((oPlugin) => {
-          let nPlugin = {};
-
-          if (typeof oPlugin === 'string') {
-            nPlugin = {
-              pName: parseFullName(oPlugin),
-              sName: parseShortName(oPlugin)
-            };
-          }
-          else {
-            oPlugin.pName = parseFullName(oPlugin.pName);
-            oPlugin.sName = parseShortName(oPlugin.pName);
-            nPlugin = oPlugin;
-          }
-
-          return nPlugin;
-        });
-      }
-
-      return plus;
-    }
-  },
   unmounted() {
-    this.$amap && this.$amap.destroy();
-  },
-
-  mounted() {
-    if (this.mapInstance) {
-      this._loadPromise = this.mapInstance.load();
-      this.createMap();
-    }
+    this.amap && this.amap.destroy();
   },
 
   addEvents() {
-    this.$amapComponent.on('moveend', () => {
-      const centerLngLat = this.$amapComponent.getCenter();
+    this.amapComponent.on('moveend', () => {
+      const centerLngLat = this.amapComponent.getCenter();
       this.center = [centerLngLat.getLng(), centerLngLat.getLat()];
     });
   },
 
   methods: {
-    addPlugins() {
-      const _notInjectPlugins = this.plugins.filter(_plugin => !AMap[_plugin.sName]);
-
-      if (!_notInjectPlugins || !_notInjectPlugins.length) { return this.addMapControls(); }
-      return this.$amapComponent.plugin(_notInjectPlugins, this.addMapControls);
-    },
 
     addMapControls() {
       if (!this.plugins || !this.plugins.length) { return; }
@@ -162,7 +178,7 @@ export default {
         this.$plugins[realPlugin.pName] = new AMap[realPlugin.sName](realPlugin);
 
         // add plugin into map
-        this.$amapComponent.addControl(this.$plugins[realPlugin.pName]);
+        this.amapComponent.addControl(this.$plugins[realPlugin.pName]);
 
         // register plugin event
         if (_plugin.events) {
@@ -211,27 +227,9 @@ export default {
     },
 
     setStatus(option) {
-      this.$amap.setStatus(option);
+      this.amap.setStatus(option);
     },
 
-    createMap() {
-      this._loadPromise.then(() => {
-        const mapElement = this.$el.querySelector('.el-vue-amap');
-        const elementID = this.vid || guid();
-        mapElement.id = elementID;
-        this.$amap = this.$amapComponent = new AMap.Map(elementID, this.convertProps());
-        if (this.amapManager) { this.amapManager.setMap(this.$amap); }
-        emitEvent(CONST.AMAP_READY_EVENT, this.$amap);
-        // TODO [fix] 删除了 $children
-        // https://v3.cn.vuejs.org/guide/migration/children.html#_2-x-%E8%AF%AD%E6%B3%95
-        //  this.$children.forEach(component => {
-        //    emitEvent(CONST.AMAP_READY_EVENT, this.$amap);
-        //  });
-        if (this.plugins && this.plugins.length) {
-          this.addPlugins();
-        }
-      });
-    },
     $$getCenter() {
       return lngLatTo(this.center);
     }
