@@ -1,12 +1,14 @@
 <template>
   <div style="padding: 200px;">
-    <el-amap-search-box :default="city" :on-search-result="onSearchResult"></el-amap-search-box>
+    <em-amap-search-box :default="city" @onSearchResult="onSearchResult"></em-amap-search-box>
+    <!-- <em-amap-search-box :default="city" :on-search-result="onSearchResult"></em-amap-search-box> -->
+    
     <!-- https://elemefe.github.io/vue-amap -->
     <!-- https://lbs.amap.com/api/lightmap/guide/picker -->
     <div style="width: 500px;height:500px;">
-      <el-amap :center="coordinate" :zoom="scale">
-        <el-amap-marker :position="coordinate"></el-amap-marker>
-      </el-amap>
+      <em-amap :center="coordinate" :zoom="scale">
+        <em-amap-marker :position="coordinate"></em-amap-marker>
+      </em-amap>
     </div>
   </div>
 </template>

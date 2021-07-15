@@ -1,9 +1,7 @@
-<template></template>
-<script>
 import registerMixin from '../mixins/register-component';
 import { lngLatTo, pixelTo } from '../utils/convert-helper';
 export default {
-  name: 'ElAmapMarker',
+  name: 'EmAmapMarker',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -63,10 +61,9 @@ export default {
     $$getOffset() {
       return pixelTo(this.amapComponent.getOffset());
     }
-  }
+  },
+  render() {
+    console.log('marker');
+    return null
+  },
 };
-</script>
-
-<style lang="scss">
-
-</style>

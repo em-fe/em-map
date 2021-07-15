@@ -1,20 +1,18 @@
-// polyfills
-// import './polyfills';
-
 import { firstCapitalize } from '@fe6/shared';
+import './style/index.scss';
 
 // 初始化接口
 import { initAMapApiLoader } from './services/injected-amap-api-instance';
 
 // 组建导入
-import AMap from './components/amap.vue';
-import AMapMarker from './components/amap-marker.vue';
-import AMapSearchBox from './components/amap-search-box.vue';
-import AMapCircle from './components/amap-circle.vue';
-import AMapGroupImage from './components/amap-ground-image.vue';
-import AMapInfoWindow from './components/amap-info-window.vue';
-import AMapPolyline from './components/amap-polyline.vue';
-import AMapPolygon from './components/amap-polygon.vue';
+import AMap from './components/amap';
+import AMapMarker from './components/amap-marker';
+import AMapSearchBox from './components/amap-search-box';
+import AMapCircle from './components/amap-circle';
+import AMapGroupImage from './components/amap-ground-image';
+import AMapInfoWindow from './components/amap-info-window';
+import AMapPolyline from './components/amap-polyline';
+import AMapPolygon from './components/amap-polygon';
 
 // managers
 import AMapManager from './managers/amap-manager';

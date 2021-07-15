@@ -11,7 +11,7 @@ export default {
       this.register();
     }
     else {
-      onEvent(CONST.AMAP_READY_EVENT, (map) => {
+      onEvent('AMAP_READY_EVENT', (map) => {
         this.amap = map;
         this.register();
       });
@@ -147,7 +147,7 @@ export default {
     $$getInstance() {
       return this.amapComponent;
     }
-  }, 
+  },
   watch: {
     position(newPostion) {
       if (this.amapComponent) {
@@ -157,4 +157,3 @@ export default {
     },
   },
 };
- 

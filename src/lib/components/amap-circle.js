@@ -1,10 +1,8 @@
-<template></template>
-<script>
 import registerMixin from '../mixins/register-component';
 import { toLngLat, lngLatTo } from '../utils/convert-helper';
 import editorMixin from '../mixins/editor-component';
 export default {
-  name: 'ElAmapCircle',
+  name: 'EmAmapCircle',
   mixins: [registerMixin, editorMixin],
   props: [
     'vid',
@@ -54,6 +52,8 @@ export default {
     $$getCenter() {
       return lngLatTo(this.amapComponent.getCenter());
     }
+  },
+  render() {
+    return null;
   }
 };
-</script>

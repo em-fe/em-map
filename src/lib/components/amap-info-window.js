@@ -1,10 +1,7 @@
-<template>
-</template>
-<script>
 import { toLngLat } from '../utils/convert-helper';
 import registerMixin from '../mixins/register-component';
 export default {
-  name: 'ElAmapInfoWindow',
+  name: 'EmAmapInfoWindow',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -44,6 +41,8 @@ export default {
       this.amapComponent = new AMap.InfoWindow(options);
       if (this.visible !== false) { this.amapComponent.open(this.amap, toLngLat(this.position)); }
     }
+  },
+  render() {
+    return null;
   }
 };
-</script>

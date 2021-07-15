@@ -1,8 +1,6 @@
-<template></template>
-<script>
 import registerMixin from '../mixins/register-component';
 export default {
-  name: 'ElAmapGroundImage',
+  name: 'EmAmapGroundImage',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -36,6 +34,8 @@ export default {
     initComponent(options) {
       this.amapComponent = new AMap.GroundImage(options.url, options.bounds, options);
     }
+  },
+  render() {
+    return null;
   }
 };
-</script>

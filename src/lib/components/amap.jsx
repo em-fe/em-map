@@ -1,11 +1,4 @@
-<template>
-  <div class="el-vue-amap-container">
-    <div class="el-vue-amap" ref="amapNode"></div>
-    <slot></slot>
-  </div>
-</template>
-<script>
-import { watchEffect, onMounted, nextTick, computed, ref } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import guid from '../utils/guid';
 import CONST from '../utils/constant';
 import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper';
@@ -14,7 +7,7 @@ import { getMapInstance } from '../services/use-instance';
 import { emitEvent } from '../mixins/mitt';
 
 export default {
-  name: 'ElAmap',
+  name: 'EmAmap',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -111,7 +104,7 @@ export default {
         amapNode.value.id = elementID;
         amap = amapComponent = new AMap.Map(elementID);
         if (props.amapManager) { props.amapManager.setMap(amap); }
-        emitEvent(CONST.AMAP_READY_EVENT, amap);
+        emitEvent('AMAP_READY_EVENT', amap);
         // TODO [fix] 删除了 $children
         // https://v3.cn.vuejs.org/guide/migration/children.html#_2-x-%E8%AF%AD%E6%B3%95
         //  this.$children.forEach(component => {
@@ -233,15 +226,11 @@ export default {
     $$getCenter() {
       return lngLatTo(this.center);
     }
+  },
+  render() {
+    return (<div class="em-vue-amap-container">
+    <div class="em-vue-amap" ref="amapNode"></div>
+    {this.$slots.default && this.$slots.default()}
+  </div>)
   }
 };
-</script>
-
-<style lang="scss">
-.el-vue-amap-container {
-  height: 100%;
-.el-vue-amap {
-    height: 100%;
-  }
-}
-</style>

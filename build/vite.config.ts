@@ -1,23 +1,16 @@
-import type { UserConfig, ConfigEnv } from 'vite';
+import type { UserConfig } from 'vite';
 
 const { resolve } = require('path');
 
-import { loadEnv } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
-import { wrapperEnv, pathResolve } from './utils';
-import { createVitePlugins } from './vite-plugins';
-import { OUTPUT_DIR } from './constant';
+export function pathResolve(dir: string) {
+  return resolve(__dirname, '../', dir);
+}
 
-export default ({ command, mode }: ConfigEnv): UserConfig => {
+export default (): UserConfig => {
   const root = process.cwd();
-
-  const env = loadEnv(mode, root);
-
-  // The boolean type read by loadEnv is a string. This function can be converted to boolean type
-  const viteEnv = wrapperEnv(env);
-
-  const isBuild = command === 'build';
-
   return {
     base: process.env.VITE_PUBLIC_PATH,
     root,
@@ -49,13 +42,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           main: resolve(root, 'index.html'),
         }
       },
-      outDir: OUTPUT_DIR,
+      outDir: '_site',
       polyfillDynamicImport: false,
       terserOptions: {
         compress: {
           keep_infinity: true,
           // Used to delete console in production environment
-          drop_console: isBuild,
+          drop_console: true,
         },
       },
       // Turning off brotliSize display can slightly reduce packaging time
@@ -66,23 +59,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     css: {
       preprocessorOptions: {
-        less: {
-          modifyVars: {
-            // Used for global import to avoid the need to import each style file separately
-            // reference:  Avoid repeated references
-            // hack: `true; @import (reference) "${resolve('src/design/config.less')}";`,
-            // ...generateModifyVars(),
-            // 自定义主题
-            // https://www.antdv.com/docs/vue/customize-theme-cn/
-            // '@layout-header-background': '#001A42',
-          },
-          javascriptEnabled: true,
-        },
         scss: {
         }
       },
     },
     // The vite plugin used by the project. The quantity is large, so it is separately extracted and managed
-    plugins: createVitePlugins(viteEnv, isBuild),
+    plugins: [
+      vue({
+        include: [/\.vue$/],
+      }),
+      vueJsx(),
+    ],
   };
 };

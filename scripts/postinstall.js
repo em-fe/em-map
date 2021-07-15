@@ -17,6 +17,6 @@ function log(it) {
 
 if (!ADBLOCK && !CI && !DISABLE_OPENCOLLECTIVE && !SILENT) {
   log(
-    '\n[water use] 感谢使用 water use ~\n',
+    '\n[em-map] 感谢使用 em-map ~\n',
   );
 }

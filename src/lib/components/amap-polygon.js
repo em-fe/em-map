@@ -1,31 +1,26 @@
-<template>
-</template>
-<script>
 import registerMixin from '../mixins/register-component';
 import editorMixin from '../mixins/editor-component';
 import { lngLatTo } from '../utils/convert-helper';
 export default {
-  name: 'ElAmapPolyline',
+  name: 'EmAmapPolygon',
   mixins: [registerMixin, editorMixin],
   props: [
     'vid',
     'zIndex',
-    'visible',
-    'editable',
-    'bubble',
-    'geodesic',
-    'isOutline',
-    'outlineColor',
     'path',
+    'bubble',
     'strokeColor',
     'strokeOpacity',
     'strokeWeight',
+    'fillColor',
+    'editable',
+    'fillOpacity',
+    'extData',
     'strokeStyle',
+    'visible',
     'strokeDasharray',
     'events',
-    'extData',
-    'onceEvents',
-    'lineJoin'
+    'onceEvents'
   ],
   data() {
     return {
@@ -34,6 +29,9 @@ export default {
         visible(flag) {
           flag === false ? this.hide() : this.show();
         },
+        zIndex(num) {
+          this.setOptions({ zIndex: num });
+        },
         editable(flag) {
           flag === true ? this.editor.open() : this.editor.close();
         }
@@ -41,19 +39,23 @@ export default {
     };
   },
   methods: {
-    initComponent(options) {
-      this.amapComponent = new AMap.Polyline(options);
+    initComponent() {
+      const options = this.convertProps();
+      this.amapComponent = new AMap.Polygon(options);
       this.amapComponent.editor = new AMap.PolyEditor(this.amap, this.amapComponent);
     },
     $$getPath() {
       return this.amapComponent.getPath().map(lngLatTo);
     },
-    $$getBounds() {
-      return this.amapComponent.getBounds();
-    },
     $$getExtData() {
       return this.amapComponent.getExtData();
+    },
+    $$contains(point) {
+      if (Array.isArray(point)) { point = new AMap.LngLat(point[0], point[1]); }
+      return this.amapComponent.getBounds().contains(point);
     }
+  },
+  render() {
+    return null;
   }
 };
-</script>
