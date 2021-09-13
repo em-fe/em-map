@@ -1,6 +1,6 @@
 <template>
   <div class="w-vue-amap-container">
-    <div class="w-vue-amap" ref="renderMapNode"></div>
+    <div ref="renderMapNode" class="w-vue-amap"></div>
     <slot></slot>
   </div>
 </template>
@@ -100,8 +100,7 @@ export default {
       return amap.plugin(_notInjectPlugins, addMapControls);
     };
 
-
-    const renderMap = async () => {
+    const renderMap = async() => {
       const mapInstance = getMapInstance();
       if (mapInstance.value && renderMapNode.value) {
         await mapInstance.value.load();
@@ -117,7 +116,7 @@ export default {
       }
     };
 
-    onMounted(async () => {
+    onMounted(async() => {
       await renderMap();
     });
     console.log(getMapInstance().value, 'mapInstance');
@@ -126,7 +125,7 @@ export default {
       plugins,
     };
   },
-}
+};
 </script>
 
 <style lang="scss">

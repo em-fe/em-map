@@ -4,7 +4,7 @@
     <!-- https://elemefe.github.io/vue-amap -->
     <!-- https://lbs.amap.com/api/lightmap/guide/picker -->
     <div style="width: 500px;height:500px;">
-      <el-amap :center="coordinate" :zoom="scale">
+      <el-amap ref="emMapRef" :center="coordinate" :zoom="scale">
         <el-amap-marker :position="coordinate"></el-amap-marker>
       </el-amap>
     </div>
@@ -16,12 +16,15 @@ export default {
   components: {
   },
   setup() {
-    const city = ref('北京');
-    const coordinate = ref([116, 39.92998577808024]);
+    const city = ref('');
+    const emMapRef = ref(null);
+    // const coordinate = ref([116.397451, 39.909187]);
+    const coordinate = ref([114.314268, 34.797991]);
     return {
       coordinate,
       city,
       scale: 14,
+      emMapRef,
     };
   },
   methods: {

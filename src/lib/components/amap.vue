@@ -1,6 +1,6 @@
 <template>
   <div class="el-vue-amap-container">
-    <div class="el-vue-amap" ref="amapNode"></div>
+    <div ref="amapNode" class="el-vue-amap"></div>
     <slot></slot>
   </div>
 </template>
@@ -10,7 +10,7 @@ import guid from '../utils/guid';
 import CONST from '../utils/constant';
 import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper';
 import registerMixin from '../mixins/register-component';
-import { getMapInstance } from '../services/use-instance';
+import { getMapInstance, setAMapComponent } from '../services/use-instance';
 import { emitEvent } from '../mixins/mitt';
 
 export default {
@@ -103,13 +103,18 @@ export default {
       if (!_notInjectPlugins || !_notInjectPlugins.length) { return addMapControls(); }
       return amapComponent.plugin(_notInjectPlugins, addMapControls);
     };
-    const renderMap = async () => {
+    const renderMap = async() => {
       const mapInstance = getMapInstance();
       if (mapInstance.value && amapNode.value) {
         await mapInstance.value.load();
         const elementID = props.vid || guid();
         amapNode.value.id = elementID;
-        amap = amapComponent = new AMap.Map(elementID);
+        amap = amapComponent = new AMap.Map(elementID, {
+          zoom: props.zoom || 14,
+        });
+        setAMapComponent(amap);
+        console.log(amap);
+        if (props.center) { amap.setCenter(props.center); }
         if (props.amapManager) { props.amapManager.setMap(amap); }
         emitEvent(CONST.AMAP_READY_EVENT, amap);
         // TODO [fix] 删除了 $children
@@ -123,7 +128,7 @@ export default {
       }
     };
 
-    onMounted(async () => {
+    onMounted(async() => {
       await renderMap();
     });
 
@@ -232,7 +237,7 @@ export default {
 
     $$getCenter() {
       return lngLatTo(this.center);
-    }
+    },
   }
 };
 </script>

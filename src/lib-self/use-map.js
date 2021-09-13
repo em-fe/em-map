@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-let mapModal = ref(null);
+const mapModal = ref(null);
 
 const setMapModal = (sss) => {
   mapModal.value = sss;

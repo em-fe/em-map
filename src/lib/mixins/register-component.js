@@ -147,14 +147,16 @@ export default {
     $$getInstance() {
       return this.amapComponent;
     }
-  }, 
+  },
   watch: {
     position(newPostion) {
       if (this.amapComponent) {
+        const { zoom } = this.$parent;
+
+        this.amap.setZoom(zoom);
         this.amap.setCenter(newPostion);
         this.amapComponent.setPosition(newPostion);
       }
     },
   },
 };
- 
