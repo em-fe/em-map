@@ -26,7 +26,6 @@ VueAMap.install = (Vue) => {
 
 export {
   initAMapApiLoader
-}
+};
 
 export default VueAMap;
-

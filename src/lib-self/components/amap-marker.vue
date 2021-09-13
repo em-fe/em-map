@@ -10,21 +10,21 @@ export default {
   props: [
   ],
   setup(props) {
-    const renderMap = async () => {
+    const renderMap = async() => {
       const mapInstance = getMapInstance();
       if (mapInstance.value) {
         await mapInstance.value.load();
         await nextTick();
         console.log(mapInstance.value, 'mapInstance.value');
-        var marker = new AMap.Marker({
-            position: new AMap.LngLat(116.39, 39.9),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-            title: '北京'
+        const marker = new AMap.Marker({
+          position: new AMap.LngLat(116.39, 39.9), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+          title: '北京'
         });
         console.log(AMap.Marker, 'AMap.Marker');
       }
     };
 
-    onMounted(async () => {
+    onMounted(async() => {
       await renderMap();
     });
     // onMounted(async () => {
@@ -41,5 +41,5 @@ export default {
     // // 移除已创建的 marker
     // map.remove(marker);
   },
-}
+};
 </script>
