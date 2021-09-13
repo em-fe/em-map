@@ -102,7 +102,10 @@ export default {
         await mapInstance.value.load();
         const elementID = props.vid || guid();
         amapNode.value.id = elementID;
-        amap = amapComponent = new AMap.Map(elementID);
+        amap = amapComponent = new AMap.Map(elementID, {
+          zoom: props.zoom || 14
+        });
+        if (props.center) { amap.setCenter(props.center); }
         if (props.amapManager) { props.amapManager.setMap(amap); }
         emitEvent('AMAP_READY_EVENT', amap);
         // TODO [fix] 删除了 $children
