@@ -50,6 +50,9 @@ export default {
   },
   methods: {
     initComponent(options) {
+      if (this.position) {
+        options.position = this.position;
+      }
       this.amapComponent = new AMap.Marker(options);
     },
     $$getExtData() {

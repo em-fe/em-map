@@ -18,8 +18,8 @@ export default {
   components: {
   },
   setup() {
-    const city = ref('北京');
-    const coordinate = ref([116, 39.92998577808024]);
+    const city = ref('');
+    const coordinate = ref([116.397451, 39.909187]);
     return {
       coordinate,
       city,

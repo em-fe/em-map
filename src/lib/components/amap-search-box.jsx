@@ -1,11 +1,15 @@
 import RegisterComponentMixin from '../mixins/register-component';
 import { getMapInstance } from '../services/use-instance';
+import { SearchOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'EmAmapSearchBox',
   mixins: [RegisterComponentMixin],
-  props: ['searchOption', 'onSearchResult', 'events', 'default'],
+  props: ['searchOption', 'onSearchResult', 'events', 'default', 'placeholder'],
   emits: ['on-search-result'],
+  components: {
+    SearchOutlined
+  },
   setup() {
     const mapInstance = getMapInstance();
     return {
@@ -15,6 +19,7 @@ export default {
   data() {
     return {
       keyword: this.default || '',
+      placeholders: this.placeholder || '请输入具体位置',
       tips: [],
       selectedTip: -1,
       loaded: false
@@ -38,6 +43,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.placeholders);
     if (this.mapInstance) {
       this.loaded = true;
       this._onSearchResult = this.onSearchResult || (() => {});
@@ -133,11 +139,12 @@ export default {
     >
       <div class="em-vue-search-box-wrapper">
         <input
+          placeholder={this.placeholders}
           v-model={this.keyword}
           type="text"
           {...searchProps}
         />
-        <span class="em-vue-search-btn" onClick={this.search}>搜索</span>
+        <span class="em-vue-search-btn"><SearchOutlined /></span>
       </div>
       <div class="em-vue-search-tips">
         <ul>
