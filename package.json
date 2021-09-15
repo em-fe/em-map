@@ -24,7 +24,8 @@
     "postinstall": "node scripts/postinstall",
     "cz": "cz",
     "prepare": "husky install",
-    "build:rollup": "rollup -c"
+    "build:rollup": "rollup -c",
+    "prepublishOnly": "build:rollup"
   },
   "repository": {
     "type": "git",
@@ -61,7 +62,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "rollup-plugin-babel": "^4.4.0",
-    "@rollup/plugin-commonjs": "^10.1.0",
+    "@rollup/plugin-commonjs": "^11.0.2",
     "rollup-plugin-scss": "2.6.0",
     "rollup-plugin-vue": "^6.0.0",
     "rollup-plugin-vue-jsx-compat": "^0.0.6",
@@ -79,7 +80,7 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "=14.0.0"
   },
   "dependencies": {
     "mitt": "^3.0.0"
