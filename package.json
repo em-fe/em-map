@@ -25,7 +25,7 @@
     "cz": "cz",
     "prepare": "husky install",
     "build:rollup": "rollup -c",
-    "prepublishOnly": "build:rollup"
+    "prepublishOnly": "yarn build:rollup"
   },
   "repository": {
     "type": "git",
@@ -45,28 +45,28 @@
   "homepage": "https://github.com/em-fe/em-map#readme",
   "devDependencies": {
     "@ant-design/icons-vue": "^6.0.1",
+    "@babel/core": "^7.15.0",
     "@fe6/norm": "^3.2.0",
     "@fe6/shared": "^0.9.1",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
     "@types/node": "^15.12.5",
     "@vitejs/plugin-vue": "^1.2.4",
     "@vitejs/plugin-vue-jsx": "^1.1.6",
     "@vue/compiler-sfc": "^3.1.2",
     "dotenv": "^10.0.0",
     "husky": "^6.0.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-esbuild": "^4.5.0",
+    "rollup-plugin-scss": "2.6.0",
+    "rollup-plugin-vue": "^6.0.0",
+    "rollup-plugin-vue-jsx-compat": "^0.0.6",
     "sass": "^1.35.1",
     "typescript": "^4.3.4",
     "vite": "^2.3.8",
     "vue": "^3.1.2",
-    "yargs": "^17.0.1",
-    "@babel/core": "^7.15.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "rollup-plugin-babel": "^4.4.0",
-    "@rollup/plugin-commonjs": "^11.0.2",
-    "rollup-plugin-scss": "2.6.0",
-    "rollup-plugin-vue": "^6.0.0",
-    "rollup-plugin-vue-jsx-compat": "^0.0.6",
-    "rollup-plugin-esbuild": "^4.5.0"
+    "yargs": "^17.0.1"
   },
   "config": {
     "commitizen": {
@@ -80,7 +80,7 @@
     "access": "public"
   },
   "engines": {
-    "node": "=14.0.0"
+    "node": ">=12.0.0 < 13.0.0"
   },
   "dependencies": {
     "mitt": "^3.0.0"
