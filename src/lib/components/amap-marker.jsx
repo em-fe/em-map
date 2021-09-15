@@ -1,5 +1,6 @@
 import registerMixin from '../mixins/register-component';
 import { lngLatTo, pixelTo } from '../utils/convert-helper';
+import { mapCenter } from '../../constant';
 export default {
   name: 'EmAmapMarker',
   mixins: [registerMixin],
@@ -50,9 +51,7 @@ export default {
   },
   methods: {
     initComponent(options) {
-      if (this.position) {
-        options.position = this.position;
-      }
+      options.position = this.position || mapCenter;
       this.amapComponent = new AMap.Marker(options);
     },
     $$getExtData() {
@@ -66,7 +65,6 @@ export default {
     }
   },
   render() {
-    console.log('marker');
     return null
   },
 };

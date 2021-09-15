@@ -2,7 +2,9 @@
   "name": "em-map",
   "version": "2.0.5",
   "description": "em地图组件",
-  "main": "./dist/index.js",
+  "main": "dist/em-map.js",
+  "unpkg": "dist/em-map.js",
+  "module": "dist/em-map.esm.js",
   "directories": {
     "test": "test"
   },
@@ -21,7 +23,8 @@
     "lint": "nr lint:js && nr lint:css",
     "postinstall": "node scripts/postinstall",
     "cz": "cz",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build:rollup": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -53,7 +56,16 @@
     "typescript": "^4.3.4",
     "vite": "^2.3.8",
     "vue": "^3.1.2",
-    "yargs": "^17.0.1"
+    "yargs": "^17.0.1",
+    "@babel/core": "^7.15.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "rollup-plugin-babel": "^4.4.0",
+    "@rollup/plugin-commonjs": "^10.1.0",
+    "rollup-plugin-scss": "2.6.0",
+    "rollup-plugin-vue": "^6.0.0",
+    "rollup-plugin-vue-jsx-compat": "^0.0.6",
+    "rollup-plugin-esbuild": "^4.5.0"
   },
   "config": {
     "commitizen": {

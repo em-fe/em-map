@@ -38,7 +38,6 @@ VueAMap.install = (Vue) => {
   Vue.config.optionMergeStrategies.deferredReady = Vue.config.optionMergeStrategies.created;
   components.map((_component) => {
     Vue.component(_component.name, _component);
-    VueAMap[firstCapitalize(_component.name).replace(/^El/, '')] = _component;
   });
 };
 
