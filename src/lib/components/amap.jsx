@@ -5,6 +5,7 @@ import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper';
 import registerMixin from '../mixins/register-component';
 import { getMapInstance } from '../services/use-instance';
 import { emitEvent } from '../mixins/mitt';
+import { mapCenter } from '../../constant';
 
 export default {
   name: 'EmAmap',
@@ -103,7 +104,8 @@ export default {
         const elementID = props.vid || guid();
         amapNode.value.id = elementID;
         amap = amapComponent = new AMap.Map(elementID, {
-          zoom: props.zoom || 14
+          zoom: props.zoom || 14,
+          center: props.center || mapCenter
         });
         if (props.center) { amap.setCenter(props.center); }
         if (props.amapManager) { props.amapManager.setMap(amap); }

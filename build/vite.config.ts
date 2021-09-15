@@ -1,4 +1,4 @@
-import type { UserConfig } from 'vite';
+import { UserConfig } from 'vite';
 
 const { resolve } = require('path');
 
